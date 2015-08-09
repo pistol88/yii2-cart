@@ -10,11 +10,11 @@
     },
     "authors": [
         {
-            "name": "Vasile Crudu",
-            "email": "bazillio07@yandex.ru"
+            "name": "Ilya Pistol",
+            "email": "pistol88@gmail.com"
         }
     ],
-	"minimum-stability": "stable",
+	"minimum-stability": "dev",
 	"require": {
 		"php": ">=5.4.0",
 		"yiisoft/yii2": "*",
