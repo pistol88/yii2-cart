@@ -102,7 +102,7 @@ class ElementController extends \yii\web\Controller
 		if($cartModel = Cart::find()->my()) {
             $json['elementsHTML'] = \pistol88\cart\widgets\ElementsList::widget(['type' => 'dropdown']);
 			$json['count'] = $cartModel->getCount();
-			$json['price'] = $cartModel->getPrice();
+			$json['price'] = $cartModel->getPriceFormatted();
 		}
 		else {
 			$json['count'] = 0;
