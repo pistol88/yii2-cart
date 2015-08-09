@@ -2,7 +2,7 @@ The Yii2-start application is free software. It is released under the terms of
 the following BSD License.
 
 Copyright © 2015 by pistol88 (https://github.com/pistol88)
-All rights reserved.
+All rights reserved. 
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions
