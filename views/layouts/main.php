@@ -24,7 +24,7 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
-<div class="container"><?=ElementsList::widget(['template' => $this, 'type' => 'dropdown']);?></div>
+<div class="container"><?=ElementsList::widget(['type' => 'dropdown']);?></div>
 <div class="wrap">
     <div class="container">
         <?= Breadcrumbs::widget([

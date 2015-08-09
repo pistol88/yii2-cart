@@ -13,7 +13,7 @@ class BuyButton extends \yii\base\Widget
     {
         parent::init();
         
-        \pistol88\cart\assets\WidgetAsset::register($this->template);
+        \pistol88\cart\assets\WidgetAsset::register($this->getView());
         
         if($this->text == NULL) {
             $this->text = Yii::t('cart', 'Buy');

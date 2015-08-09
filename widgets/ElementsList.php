@@ -10,7 +10,6 @@ use Yii;
 
 class ElementsList extends \yii\base\Widget
 {
-    public $template = NULL;
     public $offerUrl = NULL;
     public $textButton = NULL;
     public $type = 'full';
@@ -26,9 +25,7 @@ class ElementsList extends \yii\base\Widget
             $this->offerUrl = Url::toRoute("/cart/default/index");
         }
         
-        if($this->template) {
-            \pistol88\cart\assets\WidgetAsset::register($this->template);
-        }
+        \pistol88\cart\assets\WidgetAsset::register($this->getView());
     }
 
     public function run()
