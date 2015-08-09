@@ -1,0 +1,13 @@
+.pistol88-cart .dropdown-menu {
+    min-width: 360px;
+    padding: 10px;
+}
+
+.pistol88-cart .pistol88-cart-delete-button {
+    padding: 4px;
+    margin: 1px;
+}
+
+.pistol88-cart ul {
+    list-style: none;
+}
