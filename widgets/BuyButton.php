@@ -7,7 +7,6 @@ class BuyButton extends \yii\base\Widget
 {
     public $text = NULL;
     public $model = NULL;
-    public $template = NULL;
     
     public function init()
     {
@@ -27,6 +26,6 @@ class BuyButton extends \yii\base\Widget
         }
         
         $model = $this->model;
-        return Html::a(Html::encode($this->text), ['/cart/element/create'], ['class' => 'pistol88-cart-buy-button', 'data-id' => $model->id, 'data-model' => '\\'.$model::className()]);
+        return Html::a(Html::encode($this->text), ['/cart/element/create'], ['class' => 'pistol88-cart-buy-button btn btn-success', 'data-id' => $model->id, 'data-model' => '\\'.$model::className()]);
     }
 }

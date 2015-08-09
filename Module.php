@@ -8,7 +8,6 @@ class Module extends \yii\base\Module
     public $currency = NULL;
     public $currencyPosition = 'after';
     public $priceFormat = [2, '.', ''];
-    public $controllerNamespace = 'pistol88\cart\controllers';
 
     public function init()
     {
