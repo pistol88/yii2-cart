@@ -19,7 +19,16 @@ class ProductController extends Controller
 
 ```php
 //...
-class Product extends ActiveRecord implements \pistol88\cart\models\tools\CartElementInterface 
+class Product extends ActiveRecord implements \pistol88\cart\models\tools\CartElementInterface {
+    //..
+    public function getCartName() {
+        return $this->name;
+    }
+    public function getCartPrice() {
+        return $this->price;
+    }
+    //..
+}
 ```
 
 Получить элементы корзины:
