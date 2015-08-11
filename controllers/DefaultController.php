@@ -1,6 +1,6 @@
 <?php
 
-namespace pistol88\cart\controllers;
+namespace pistol88\cart\controllers; 
 
 use pistol88\cart\models\Cart;
 use yii\filters\VerbFilter;

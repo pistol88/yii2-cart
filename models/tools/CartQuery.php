@@ -1,6 +1,6 @@
 <?php
 
-namespace pistol88\cart\models\tools;
+namespace pistol88\cart\models\tools; 
 
 use yii\web\Session;
 use Yii;

@@ -1,21 +1,28 @@
 <?php
 
-namespace pistol88\cart\widgets;
+namespace pistol88\cart\widgets; 
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 class BuyButton extends \yii\base\Widget {
 
     public $text = NULL;
     public $model = NULL;
+    public $cssClass = NULL;
+    public $htmlTag = 'a';
 
     public function init() {
         parent::init();
 
         \pistol88\cart\assets\WidgetAsset::register($this->getView());
 
-        if ($this->text == NULL) {
+        if ($this->text === NULL) {
             $this->text = Yii::t('cart', 'Buy');
+        }
+
+        if ($this->cssClass === NULL) {
+            $this->cssClass = 'btn btn-success';
         }
     }
 
@@ -25,7 +32,11 @@ class BuyButton extends \yii\base\Widget {
         }
 
         $model = $this->model;
-        return Html::a(Html::encode($this->text), ['/cart/element/create'], ['class' => 'pistol88-cart-buy-button btn btn-success', 'data-id' => $model->id, 'data-model' => '\\' . $model::className()]);
+        return Html::tag($this->htmlTag, $this->text, [
+                    'href' => Url::toRoute('/cart/element/create'),
+                    'class' => "pistol88-cart-buy-button {$this->cssClass}",
+                    'data-id' => $model->id,
+                    'data-model' => $model::className()
+        ]);
     }
-
 }

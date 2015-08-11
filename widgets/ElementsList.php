@@ -1,6 +1,6 @@
 <?php
 
-namespace pistol88\cart\widgets;
+namespace pistol88\cart\widgets; 
 
 use pistol88\cart\models\Cart;
 use pistol88\cart\widgets\DeleteButton;
@@ -67,31 +67,31 @@ class ElementsList extends \yii\base\Widget {
 
     private function _button() {
         return Html::a($this->textButton . '<span class="caret"></span>', $this->offerUrl, [
-            'class' => 'pistol88-cart-open-button btn btn-default',
-            'data-target' => '#',
-            'id' => 'pistol88-cart-block',
-            'data-toggle' => 'dropdown',
-            'role' => 'button',
-            'aria-haspopup' => 'true',
-            'aria-expanded' => 'false',
+                    'class' => 'pistol88-cart-open-button btn btn-default',
+                    'data-target' => '#',
+                    'id' => 'pistol88-cart-block',
+                    'data-toggle' => 'dropdown',
+                    'role' => 'button',
+                    'aria-haspopup' => 'true',
+                    'aria-expanded' => 'false',
         ]);
     }
 
     private function _count($item) {
         return Html::tag(
-                'div', $item->getPriceFormatted() . 'x' . Html::activeTextInput($item, 'count', [
-                    'class' => 'pistol88-cart-element-count',
-                    'data-id' => $item->id,
-                    'data-href' => Url::toRoute("/cart/element/update"),
-                ]), ['class' => 'col-lg-4']
+                        'div', $item->getPriceFormatted() . 'x' . Html::activeTextInput($item, 'count', [
+                            'class' => 'pistol88-cart-element-count',
+                            'data-id' => $item->id,
+                            'data-href' => Url::toRoute("/cart/element/update"),
+                        ]), ['class' => 'col-lg-4']
         );
     }
-    
+
     private function _row($item) {
         if (is_string($item)) {
             return $item;
         }
-        
+
         $columns = [];
         $columns[] = Html::tag('div', Html::encode($item->model->getCartName()), ['class' => 'col-lg-6']);
         $columns[] = $this->_count($item);
@@ -100,4 +100,5 @@ class ElementsList extends \yii\base\Widget {
         $return = html::tag('div', implode('', $columns), ['class' => 'row']);
         return Html::tag('li', $return, ['class' => 'pistol88-cart-row']);
     }
+
 }

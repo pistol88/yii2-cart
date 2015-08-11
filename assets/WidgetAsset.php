@@ -1,6 +1,6 @@
 <?php
 
-namespace pistol88\cart\assets;
+namespace pistol88\cart\assets; 
 
 use yii\web\AssetBundle;
 

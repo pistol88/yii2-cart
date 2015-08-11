@@ -1,6 +1,6 @@
 <?php
 
-namespace pistol88\cart\widgets;
+namespace pistol88\cart\widgets; 
 
 use yii\helpers\Html;
 
