@@ -15,7 +15,7 @@ class ProductController extends Controller
 }
 ```
 
-Положить в корзину можно любую модуль, имплемементирующую интерфейс CartElementInterface
+Положить в корзину можно любую модель, имплемементирующую интерфейс CartElementInterface
 
 ```php
 //...
