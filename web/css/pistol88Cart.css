@@ -11,3 +11,7 @@
 .pistol88-cart ul {
     list-style: none;
 }
+
+.pistol88-cart .pistol88-cart-element-count {
+    width: 30px;
+}

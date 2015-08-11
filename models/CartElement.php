@@ -6,7 +6,18 @@ use pistol88\cart\models\Cart;
 use Yii;
 
 class CartElement extends \yii\db\ActiveRecord {
-
+    
+    function getPriceFormatted() {
+        $price = \yii\helpers\Html::encode($this->model->getCartPrice());
+        $currency = Yii::$app->getModule('cart')->currency;
+        if (Yii::$app->getModule('cart')->currencyPosition == 'after') {
+            $price = "$price$currency";
+        } else {
+            $price = "$currency$price";
+        }
+        return $price;
+    }
+    
     public static function tableName() {
         return 'cart_element';
     }

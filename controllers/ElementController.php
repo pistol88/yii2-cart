@@ -36,7 +36,7 @@ class ElementController extends \yii\web\Controller {
     function actionCreate() {
         $json = ['result' => 'undefind', 'error' => false];
 
-        $cartModel = Cart::find()->my();
+        $cartModel = Cart::my();
 
         $json['cartId'] = $cartModel->id;
 
@@ -46,6 +46,8 @@ class ElementController extends \yii\web\Controller {
             if (!$elementModel = CartElement::find()->andWhere(['cart_id' => $cartModel->id, 'model' => $postData['CartElement']['model'], 'item_id' => $postData['CartElement']['item_id']])->one()) {
                 $elementModel = new CartElement;
                 $elementModel->count = 1;
+                $elementModel->price = $productModel->getCartPrice();
+                $elementModel->cart_id = $cartModel->id;
             } else {
                 $elementModel->count += 1;
             }
@@ -53,8 +55,6 @@ class ElementController extends \yii\web\Controller {
             $model = $postData['CartElement']['model'];
             $productModel = new $model();
             if ($productModel = $productModel::findOne($postData['CartElement']['item_id'])) {
-                $elementModel->price = $elementModel->count * $productModel->getCartPrice();
-                $elementModel->cart_id = $cartModel->id;
                 if ($elementModel->load($postData) && $elementModel->save()) {
                     $json['elementId'] = $elementModel->id;
                     $json['result'] = 'success';
@@ -74,7 +74,7 @@ class ElementController extends \yii\web\Controller {
     function actionUpdate() {
         $json = ['result' => 'undefind', 'error' => false];
 
-        $cartModel = Cart::find()->my();
+        $cartModel = Cart::my();
         $json['cartId'] = $cartModel->id;
 
         $postData = Yii::$app->request->post();
@@ -92,7 +92,7 @@ class ElementController extends \yii\web\Controller {
     }
 
     function _cartJson($json) {
-        if ($cartModel = Cart::find()->my()) {
+        if ($cartModel = Cart::my()) {
             $json['elementsHTML'] = \pistol88\cart\widgets\ElementsList::widget(['type' => 'dropdown']);
             $json['count'] = $cartModel->getCount();
             $json['price'] = $cartModel->getPriceFormatted();

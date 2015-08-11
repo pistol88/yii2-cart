@@ -6,11 +6,15 @@ use pistol88\cart\models\CartElement;
 use Yii;
 
 class Cart extends \yii\db\ActiveRecord {
-
+    
     public static function tableName() {
         return 'cart';
     }
 
+    public static function my() {
+        return Cart::find()->my();
+    }
+    
     public function rules() {
         return [
             [['created_time', 'user_id'], 'required', 'on' => 'create'],
@@ -52,6 +56,25 @@ class Cart extends \yii\db\ActiveRecord {
         return intval($this->hasMany(CartElement::className(), ['cart_id' => 'id'])->sum('count'));
     }
 
+    public function add(\pistol88\cart\models\tools\CartElementInterface $model, $count = 1) {
+        $cartModel = Cart::find()->my();
+
+        if (!$elementModel = CartElement::find()->andWhere(['cart_id' => $cartModel->id, 'model' => get_class($model), 'item_id' => $model->id])->one()) {
+            $elementModel = new CartElement;
+            $elementModel->count = (int)$count;
+            $elementModel->price = $model->getCartPrice();
+            $elementModel->cart_id = $cartModel->id;
+        } else {
+            $elementModel->count += (int)$count;
+        }
+
+        if ($elementModel->save()) {
+            return $elementModel;
+        } else {
+            return false;
+        }
+    }
+    
     public function getElements($withModel = true) {
         $returnModels = [];
         $elements = $this->hasMany(CartElement::className(), ['cart_id' => 'id'])->all();

@@ -20,7 +20,7 @@ class DefaultController extends \yii\web\Controller {
     }
 
     function actionIndex() {
-        $cartModel = Cart::find()->my();
+        $cartModel = Cart::my();
 
         if ($cartModel) {
             $elements = $cartModel->getElements();

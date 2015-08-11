@@ -12,16 +12,5 @@ class Module extends \yii\base\Module {
 
     public function init() {
         parent::init();
-        $this->registerTranslations();
     }
-
-    public function registerTranslations() {
-        Yii::$app->i18n->translations['cart*'] = [
-            'class' => 'yii\i18n\PhpMessageSource',
-            'sourceLanguage' => 'en-US',
-            'basePath' => __DIR__ . '/messages',
-            'forceTranslation' => true,
-        ];
-    }
-
 }
