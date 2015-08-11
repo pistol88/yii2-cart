@@ -24,7 +24,7 @@ class CartElement extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['cart_id', 'model'], 'required'],
+            [['cart_id', 'model', 'item_id'], 'required'],
             [['model'], 'validateModel'],
             [['description'], 'string'],
             [['price'], 'double'],
@@ -48,8 +48,8 @@ class CartElement extends \yii\db\ActiveRecord {
         return [
             'id' => Yii::t('cart', 'ID'),
             'parent_id' => Yii::t('cart', 'Parent element'),
-            'price' => Yii::t('price', 'Price'),
-            'description' => Yii::t('price', 'Description'),
+            'price' => Yii::t('cart', 'Price'),
+            'description' => Yii::t('cart', 'Description'),
             'model' => Yii::t('cart', 'Model name'),
             'cart_id' => Yii::t('cart', 'Cart ID'),
             'item_id' => Yii::t('cart', 'Item ID'),

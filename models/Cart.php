@@ -7,12 +7,10 @@ use Yii;
 
 class Cart extends \yii\db\ActiveRecord {
     
+    private static $_instance = null;
+    
     public static function tableName() {
         return 'cart';
-    }
-
-    public static function my() {
-        return Cart::find()->my();
     }
     
     public function rules() {
@@ -35,6 +33,13 @@ class Cart extends \yii\db\ActiveRecord {
         return new tools\CartQuery(get_called_class());
     }
 
+    public static function my() {
+        if (self::$_instance === null) {
+            self::$_instance = Cart::find()->my();
+        }
+        return self::$_instance;
+    }
+    
     public function getPrice() {
         return $this->hasMany(CartElement::className(), ['cart_id' => 'id'])->sum('price*count');
     }
@@ -57,21 +62,25 @@ class Cart extends \yii\db\ActiveRecord {
     }
 
     public function add(\pistol88\cart\models\tools\CartElementInterface $model, $count = 1) {
-        $cartModel = Cart::find()->my();
+        $cartModel = Cart::my();
 
         if (!$elementModel = CartElement::find()->andWhere(['cart_id' => $cartModel->id, 'model' => get_class($model), 'item_id' => $model->id])->one()) {
             $elementModel = new CartElement;
-            $elementModel->count = (int)$count;
-            $elementModel->price = $model->getCartPrice();
-            $elementModel->cart_id = $cartModel->id;
+            $data = [];
+            $data['count'] = (int)$count;
+            $data['price'] = $model->getCartPrice();
+            $data['cart_id'] = $cartModel->id;
+            $data['item_id'] = $model->id;
+            $data['model'] = '\\'.get_class($model);
+            if ($elementModel->load(['CartElement' => $data]) && $elementModel->save()) {
+                return $elementModel;
+            } else {
+                throw new \yii\base\Exception(current($elementModel->getFirstErrors()));
+            }
         } else {
             $elementModel->count += (int)$count;
-        }
-
-        if ($elementModel->save()) {
-            return $elementModel;
-        } else {
-            return false;
+            $element->save();
+            return $element;
         }
     }
     

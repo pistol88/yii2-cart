@@ -43,29 +43,19 @@ class ElementController extends \yii\web\Controller {
         if ($cartModel->id) {
             $postData = Yii::$app->request->post();
 
-            if (!$elementModel = CartElement::find()->andWhere(['cart_id' => $cartModel->id, 'model' => $postData['CartElement']['model'], 'item_id' => $postData['CartElement']['item_id']])->one()) {
-                $elementModel = new CartElement;
-                $elementModel->count = 1;
-                $elementModel->price = $productModel->getCartPrice();
-                $elementModel->cart_id = $cartModel->id;
-            } else {
-                $elementModel->count += 1;
-            }
-
             $model = $postData['CartElement']['model'];
             $productModel = new $model();
-            if ($productModel = $productModel::findOne($postData['CartElement']['item_id'])) {
-                if ($elementModel->load($postData) && $elementModel->save()) {
-                    $json['elementId'] = $elementModel->id;
-                    $json['result'] = 'success';
-                } else {
-                    $json['result'] = 'fail';
-                    $json['error'] = 'Validation error';
-                }
-            } else {
-                $json['result'] = 'fail';
-                $json['error'] = 'Unknow model';
+            $productModel = $productModel::find($postData['CartElement']['item_id'])->one();
+
+            try {
+                $elementModel = $cartModel->add($productModel);
             }
+            catch(Exception $e) {
+                
+            }
+
+            $json['elementId'] = $elementModel->id;
+            $json['result'] = 'success';
         }
 
         return $this->_cartJson($json);

@@ -91,7 +91,7 @@ class ElementsList extends \yii\base\Widget {
         if (is_string($item)) {
             return $item;
         }
-
+        
         $columns = [];
         $columns[] = Html::tag('div', Html::encode($item->model->getCartName()), ['class' => 'col-lg-6']);
         $columns[] = $this->_count($item);
