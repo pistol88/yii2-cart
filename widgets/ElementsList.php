@@ -48,10 +48,10 @@ class ElementsList extends \yii\base\Widget {
 
         if ($this->type == 'dropdown') {
             $elementsHtml = Html::ul($elements, ['item' => function($item) {
-                            return $this->_row($item);
-                        },
-                        'class' => 'dropdown-menu',
-                        'aria-labelledby' => 'pistol88-cart-block']
+                    return $this->_row($item);
+                },
+                'class' => 'dropdown-menu',
+                'aria-labelledby' => 'pistol88-cart-block']
             );
             $button = $this->_button();
             $cart = Html::tag('div', $button . $elementsHtml, ['class' => 'pistol88-cart dropdown']);
@@ -67,23 +67,23 @@ class ElementsList extends \yii\base\Widget {
 
     private function _button() {
         return Html::a($this->textButton . '<span class="caret"></span>', $this->offerUrl, [
-                    'class' => 'pistol88-cart-open-button btn btn-default',
-                    'data-target' => '#',
-                    'id' => 'pistol88-cart-block',
-                    'data-toggle' => 'dropdown',
-                    'role' => 'button',
-                    'aria-haspopup' => 'true',
-                    'aria-expanded' => 'false',
+            'class' => 'pistol88-cart-open-button btn btn-default',
+            'data-target' => '#',
+            'id' => 'pistol88-cart-block',
+            'data-toggle' => 'dropdown',
+            'role' => 'button',
+            'aria-haspopup' => 'true',
+            'aria-expanded' => 'false',
         ]);
     }
 
     private function _count($item) {
         return Html::tag(
-                        'div', $item->getPriceFormatted() . 'x' . Html::activeTextInput($item, 'count', [
-                            'class' => 'pistol88-cart-element-count',
-                            'data-id' => $item->id,
-                            'data-href' => Url::toRoute("/cart/element/update"),
-                        ]), ['class' => 'col-lg-4']
+            'div', $item->getPriceFormatted() . 'x' . Html::activeTextInput($item, 'count', [
+                'class' => 'pistol88-cart-element-count',
+                'data-id' => $item->id,
+                'data-href' => Url::toRoute("/cart/element/update"),
+            ]), ['class' => 'col-lg-4']
         );
     }
 

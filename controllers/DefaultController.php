@@ -1,23 +1,12 @@
 <?php
 
-namespace pistol88\cart\controllers; 
+namespace pistol88\cart\controllers;
 
 use pistol88\cart\models\Cart;
 use yii\filters\VerbFilter;
 use Yii;
 
 class DefaultController extends \yii\web\Controller {
-
-    public function behaviors() {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['add'],
-                ],
-            ],
-        ];
-    }
 
     function actionIndex() {
         $cartModel = Cart::my();
@@ -33,10 +22,10 @@ class DefaultController extends \yii\web\Controller {
         }
 
         return $this->render('index', [
-                    'cartModel' => $cartModel,
-                    'count' => $count,
-                    'price' => $price,
-                    'elements' => $elements,
+            'cartModel' => $cartModel,
+            'count' => $count,
+            'price' => $price,
+            'elements' => $elements,
         ]);
     }
 

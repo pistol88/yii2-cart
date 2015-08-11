@@ -29,13 +29,13 @@ class CartInformer extends \yii\base\Widget {
     public function run() {
         $cartModel = \pistol88\cart\models\Cart::my();
         $this->text = str_replace(['{c}', '{p}'],
-                ['<span class="pistol88-cart-count">'.$cartModel->getCount().'</span>', '<strong class="pistol88-cart-price">'.$cartModel->getPriceFormatted().'</strong>'],
-                $this->text
+            ['<span class="pistol88-cart-count">'.$cartModel->getCount().'</span>', '<strong class="pistol88-cart-price">'.$cartModel->getPriceFormatted().'</strong>'],
+            $this->text
         );
         return Html::tag($this->htmlTag, $this->text, [
-                'href' => Url::toRoute('/cart/element/create'),
-                'class' => "pistol88-cart-informer {$this->cssClass}",
-                'data-id' => $model->id
+            'href' => Url::toRoute('/cart/element/create'),
+            'class' => "pistol88-cart-informer {$this->cssClass}",
+            'data-id' => $model->id
         ]);
     }
 

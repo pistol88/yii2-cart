@@ -17,6 +17,7 @@ class ElementController extends \yii\web\Controller {
                 'actions' => [
                     'create' => ['post'],
                     'delete' => ['post'],
+                    'update' => ['post'],
                 ],
             ],
         ];
@@ -38,25 +39,17 @@ class ElementController extends \yii\web\Controller {
 
         $cartModel = Cart::my();
 
+        $postData = Yii::$app->request->post();
+
+        $model = $postData['CartElement']['model'];
+        $productModel = new $model();
+        $productModel = $productModel::find($postData['CartElement']['item_id'])->one();
+
+        $elementModel = $cartModel->add($productModel);
+        
         $json['cartId'] = $cartModel->id;
-
-        if ($cartModel->id) {
-            $postData = Yii::$app->request->post();
-
-            $model = $postData['CartElement']['model'];
-            $productModel = new $model();
-            $productModel = $productModel::find($postData['CartElement']['item_id'])->one();
-
-            try {
-                $elementModel = $cartModel->add($productModel);
-            }
-            catch(Exception $e) {
-                
-            }
-
-            $json['elementId'] = $elementModel->id;
-            $json['result'] = 'success';
-        }
+        $json['result'] = 'success';
+        $json['elementId'] = $elementModel->id;
 
         return $this->_cartJson($json);
     }
@@ -65,7 +58,6 @@ class ElementController extends \yii\web\Controller {
         $json = ['result' => 'undefind', 'error' => false];
 
         $cartModel = Cart::my();
-        $json['cartId'] = $cartModel->id;
 
         $postData = Yii::$app->request->post();
         $elementModel = CartElement::find()->andWhere(['cart_id' => $cartModel->id, 'id' => $postData['CartElement']['id']])->one();
