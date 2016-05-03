@@ -182,7 +182,8 @@ class Discount extends Behavior {
 Таким же макаром можно сделать и наценку.
 
 Все события, к которым можно подцепиться поведением:
-EVENT_CART_COST - изменение цены
-EVENT_CART_COUNT - изменение количества
-EVENT_CART_TRUNCATE - очищение корзины
-EVENT_CART_PUT - добавление элемента
+
+ * EVENT_CART_COST - изменение цены
+ * EVENT_CART_COUNT - изменение количества
+ * EVENT_CART_TRUNCATE - очищение корзины
+ * EVENT_CART_PUT - добавление элемента
