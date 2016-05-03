@@ -117,7 +117,6 @@ use pistol88\cart\widgets\ChangeCount;
 
 <?php /* Выведет кнопку удаления элемента */ ?>
 <?=DeleteButton::widget(['model' => $item, 'text' => 'X']);?>
-```
 
 <?php
 /*
