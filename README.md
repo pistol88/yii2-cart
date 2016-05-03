@@ -24,6 +24,8 @@ php composer update
 
 Далее, мигрируем базу:
 
+php yii migrate --migrationPath=@pistol88/cart/migrations
+
 Подключение и настройка
 ---------------------------------
 В конфигурационный файл приложения добавить компонент cart
