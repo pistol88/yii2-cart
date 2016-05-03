@@ -3,7 +3,7 @@
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m150714_050431_nethammercCart extends Migration
+class m150714_050431_pistol88Cart extends Migration
 {
     public function safeUp()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace pistol88\cart\assets; 
+namespace pistol88\cart\assets;
 
 use yii\web\AssetBundle;
 
@@ -9,11 +9,12 @@ class WidgetAsset extends AssetBundle {
     public $depends = [
         'pistol88\cart\assets\Asset'
     ];
+
     public $js = [
-        'js/pistol88Cart.js',
+        'js/scripts.js',
     ];
     public $css = [
-        'css/pistol88Cart.css',
+        'css/styles.css',
     ];
 
     public function init() {

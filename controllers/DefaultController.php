@@ -8,13 +8,24 @@ use Yii;
 
 class DefaultController extends \yii\web\Controller {
 
+    public function behaviors() {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['add'],
+                ],
+            ],
+        ];
+    }
+
     function actionIndex() {
-        $cartModel = Cart::my();
+        $cartModel = yii::$app->cart;
 
         if ($cartModel) {
             $elements = $cartModel->getElements();
             $count = $cartModel->getCount();
-            $price = $cartModel->getPriceFormatted();
+            $price = $cartModel->getCostFormatted();
         } else {
             $elements = [];
             $count = 0;

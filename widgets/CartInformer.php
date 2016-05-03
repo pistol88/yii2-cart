@@ -4,6 +4,7 @@ namespace pistol88\cart\widgets;
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii;
 
 class CartInformer extends \yii\base\Widget {
 
@@ -27,15 +28,14 @@ class CartInformer extends \yii\base\Widget {
     }
 
     public function run() {
-        $cartModel = \pistol88\cart\models\Cart::my();
+        $cartModel = yii::$app->cart;
         $this->text = str_replace(['{c}', '{p}'],
-            ['<span class="pistol88-cart-count">'.$cartModel->getCount().'</span>', '<strong class="pistol88-cart-price">'.$cartModel->getPriceFormatted().'</strong>'],
-            $this->text
+                ['<span class="pistol88-cart-count">'.$cartModel->getCount().'</span>', '<strong class="pistol88-cart-price">'.$cartModel->getCostFormatted().'</strong>'],
+                $this->text
         );
         return Html::tag($this->htmlTag, $this->text, [
-            'href' => Url::toRoute('/cart/element/create'),
-            'class' => "pistol88-cart-informer {$this->cssClass}",
-            'data-id' => $model->id
+                'href' => $this->offerUrl,
+                'class' => "pistol88-cart-informer {$this->cssClass}",
         ]);
     }
 

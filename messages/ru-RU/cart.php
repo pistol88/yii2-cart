@@ -13,11 +13,12 @@ return [
     'Item ID' => 'ID элемента',
     'Count' => 'Количество',
     'Description' => 'Описание',
-    'on' => 'на',
     'Buy' => 'Купить',
+    'on' => 'на',
     'Delete' => 'Удалить',
     'Total' => 'Итого',
     'Cart (<span class="pistol88-cart-price">{p}</span>)' => 'Корзина (<span class="pistol88-cart-price">{p}</span>)',
     'Offer' => 'Оформление',
-    'Your cart empty' => 'Ваша корзина пуста'
+    'Your cart empty' => 'Ваша корзина пуста',
+    'Offer' => 'Оформить',
 ];

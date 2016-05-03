@@ -1,7 +1,10 @@
 <?php
+/* @var $this \yii\web\View */
+/* @var $content string */
+
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
-use pistol88\assets\Asset;
+use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
 AppAsset::register($this);

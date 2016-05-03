@@ -1,11 +1,11 @@
 <?php
-
 use pistol88\cart\widgets\ElementsList;
+use yii;
 
-$this->title = Yii::t('cart', 'Cart');
+$this->title = yii::t('cart', 'Cart');
 ?>
 
 <div class="cart">
-    <h1><?= \Yii::t('cart', 'Cart'); ?></h1>
-<?= ElementsList::widget(); ?>
+    <h1><?= yii::t('cart', 'Cart'); ?></h1>
+    <?= ElementsList::widget(); ?>
 </div>

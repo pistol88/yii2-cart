@@ -1,8 +1,8 @@
 <?php
 
-namespace pistol88\cart\models\tools; 
+namespace pistol88\cart\interfaces;
 
-interface CartElementInterface {
+interface CartElement {
 
     public function getCartName();
 

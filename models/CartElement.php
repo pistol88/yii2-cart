@@ -1,16 +1,32 @@
 <?php
 
-namespace pistol88\cart\models; 
+namespace pistol88\cart\models;
 
 use pistol88\cart\models\Cart;
-use Yii;
+use pistol88\cart\events\CartElement as CartElementEvent;
+use yii;
 
 class CartElement extends \yii\db\ActiveRecord {
+
+    const EVENT_ELEMENT_UPDATE = 'element_count';
+    const EVENT_ELEMENT_DELETE = 'element_delete';
     
-    function getPriceFormatted() {
-        $price = \yii\helpers\Html::encode($this->model->getCartPrice());
-        $currency = Yii::$app->getModule('cart')->currency;
-        if (Yii::$app->getModule('cart')->currencyPosition == 'after') {
+    public function behaviors() {
+        return yii::$app->cart->elementBehaviors;
+	}
+    
+    public static function tableName() {
+        return 'cart_element';
+    }
+
+    public function getCost() {
+        return $this->price*$this->count;
+    }
+
+    public function getCostFormatted() {
+        $price = $this->getCost();
+        $currency = yii::$app->cart->currency;
+        if (Yii::$app->cart->currencyPosition == 'after') {
             $price = "$price$currency";
         } else {
             $price = "$currency$price";
@@ -18,10 +34,6 @@ class CartElement extends \yii\db\ActiveRecord {
         return $price;
     }
     
-    public static function tableName() {
-        return 'cart_element';
-    }
-
     public function rules() {
         return [
             [['cart_id', 'model', 'item_id'], 'required'],
@@ -36,7 +48,7 @@ class CartElement extends \yii\db\ActiveRecord {
         $model = $this->model;
         if (class_exists($model)) {
             $elementModel = new $model();
-            if (!$elementModel instanceof \pistol88\cart\models\tools\CartElementInterface) {
+            if (!$elementModel instanceof \pistol88\cart\interfaces\CartElement) {
                 $this->addError($attribute, 'Model implement error');
             }
         } else {
@@ -46,23 +58,53 @@ class CartElement extends \yii\db\ActiveRecord {
 
     public function attributeLabels() {
         return [
-            'id' => Yii::t('cart', 'ID'),
-            'parent_id' => Yii::t('cart', 'Parent element'),
-            'price' => Yii::t('cart', 'Price'),
-            'description' => Yii::t('cart', 'Description'),
-            'model' => Yii::t('cart', 'Model name'),
-            'cart_id' => Yii::t('cart', 'Cart ID'),
-            'item_id' => Yii::t('cart', 'Item ID'),
-            'count' => Yii::t('cart', 'Count'),
+            'id' => yii::t('cart', 'ID'),
+            'parent_id' => yii::t('cart', 'Parent element'),
+            'price' => yii::t('cart', 'Price'),
+            'description' => yii::t('cart', 'Description'),
+            'model' => yii::t('cart', 'Model name'),
+            'cart_id' => yii::t('cart', 'Cart ID'),
+            'item_id' => yii::t('cart', 'Item ID'),
+            'count' => yii::t('cart', 'Count'),
         ];
     }
 
-    public function beforeSave($insert) {
-        $cartModel = Cart::find()->my();
-        $cartModel->updated_time = time();
-        $cartModel->save();
-
-        return true;
+    public function getCart() {
+        return $this->hasOne(Cart::className(), ['id' => 'cart_id']);
     }
+    
+    public function setCart($cart) {
+        return $this->populateRelation('cart', $cart);
+    }
+    
+    public function beforeSave($insert) {
+        $cart = yii::$app->cart;
 
+        $cart->cart->updated_time = time();
+        $cart->cart->save();
+
+        $elementEvent = new CartElementEvent(['element' => $this]);
+        
+        $this->trigger(self::EVENT_ELEMENT_UPDATE, $elementEvent);
+
+        if($elementEvent->stop) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    
+    public function beforeDelete() {
+        $elementEvent = new CartElementEvent(['element' => $this]);
+        
+        $this->trigger(self::EVENT_ELEMENT_DELETE, $elementEvent);
+        
+        if($elementEvent->stop) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 }

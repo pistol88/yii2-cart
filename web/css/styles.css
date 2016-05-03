@@ -10,8 +10,15 @@
 
 .pistol88-cart ul {
     list-style: none;
+    padding: 1px;
+    margin: 1px;
 }
 
 .pistol88-cart .pistol88-cart-element-count {
+    width: 17px;
+}
+
+.pistol88-change-count input {
+    text-align: center;
     width: 30px;
 }
