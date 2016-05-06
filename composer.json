@@ -23,6 +23,11 @@
     "config": {
         "process-timeout": 1800
     },
+    "autoload": {
+        "psr-4": {
+            "pistol88\\cart\\": ""
+        }
+    },
     "extra": {
         "bootstrap": "pistol88\\cart\\Bootstrap"
     }
