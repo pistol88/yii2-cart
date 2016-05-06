@@ -25,7 +25,7 @@ php composer update
 Далее, мигрируем базу:
 
 ```
-php yii migrate --migrationPath=yii migrate --migrationPath=vendor/pistol88/yii2-cart/migrations
+php yii migrate --migrationPath=vendor/pistol88/yii2-cart/migrations
 ```
 
 Подключение и настройка
