@@ -32,7 +32,7 @@ class ElementsList extends \yii\base\Widget {
         }
 
         if ($this->textButton == NULL) {
-            $this->textButton = Yii::t('cart', 'Cart (<span class="pistol88-cart-price">{p}</span>)', ['c' => $this->cart->getCount(), 'p' => $this->cart->getCostFormatted()]);
+            $this->textButton = yii::t('cart', 'Cart (<span class="pistol88-cart-price">{p}</span>)', ['c' => $this->cart->getCount(), 'p' => $this->cart->getCostFormatted()]);
         }
 
         \pistol88\cart\assets\WidgetAsset::register($this->getView());
@@ -42,11 +42,11 @@ class ElementsList extends \yii\base\Widget {
         $elements = $this->cart->getElements();
 
         if (empty($elements)) {
-            return Html::tag('div', Yii::t('cart', 'Your cart empty'), ['class' => 'pistol88-cart pistol88-empty-cart']);
+            return Html::tag('div', yii::t('cart', 'Your cart empty'), ['class' => 'pistol88-cart pistol88-empty-cart']);
         }
 
-        if ($this->offerUrl) {
-            $elements[] = Html::a(Yii::t('cart', 'Offer'), $this->offerUrl, ['class' => 'pistol88-cart-offer-button btn btn-success']);
+        if ($this->offerUrl && $this->showOffer) {
+            $elements[] = Html::a(yii::t('cart', 'Offer'), $this->offerUrl, ['class' => 'pistol88-cart-offer-button btn btn-success']);
         }
         
         if ($this->showTotal) {
@@ -83,7 +83,7 @@ class ElementsList extends \yii\base\Widget {
         
         $columns = [];
 
-        $cartName = "<div class=\"title\">".$item->model->getCartName()."</div><div class=\"count\">".ChangeCount::widget(['model' => $item])."</div>";
+        $cartName = Html::tag('div', $item->model->getCartName(), ['class' => 'pistol88-cart-list-title']).Html::tag('div', ChangeCount::widget(['model' => $item]), ['class' => 'pistol88-cart-list-count']);
 
         if($item->description) {
             $cartName .= ' ('.$item->description.')';
