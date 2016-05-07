@@ -43,20 +43,21 @@ class ElementsList extends \yii\base\Widget {
         $elements = $this->cart->elements;
 
         if (empty($elements)) {
-            return Html::tag('div', yii::t('cart', 'Your cart empty'), ['class' => 'pistol88-cart pistol88-empty-cart']);
-        }
+            $cart = Html::tag('div', yii::t('cart', 'Your cart empty'), ['class' => 'pistol88-cart pistol88-empty-cart']);
+        } else {
         
-        $cart = Html::ul($elements, ['item' => function($item, $index) {
+        	$cart = Html::ul($elements, ['item' => function($item, $index) {
                     return $this->_row($item);
                 }, 'class' => 'pistol88-cart-list']);
-
+		}
+		
         $cart = Html::tag('div', $cart, ['class' => 'pistol88-cart']);
         
-        if ($this->offerUrl && $this->showOffer) {
+        if (!empty($elements) && $this->offerUrl && $this->showOffer) {
             $cart .= Html::a(yii::t('cart', 'Offer'), $this->offerUrl, ['class' => 'pistol88-cart-offer-button btn btn-success']);
         }
         
-        if ($this->showTotal) {
+        if (empty($elements) && $this->showTotal) {
             $cart .= Html::tag('div', Yii::t('cart', 'Total') . ': ' . CartInformer::widget(), ['class' => 'pistol88-cart-total-row']);
         }
 
@@ -82,13 +83,13 @@ class ElementsList extends \yii\base\Widget {
             $cartElName .= ' ('.$item->description.')';
         }
 
-        $columns[] = Html::tag('div', $cartElName, ['class' => 'col-lg-5 col-xs-6']);
+        $columns[] = Html::tag('div', $cartElName, ['class' => 'col-lg-5 col-xs-5']);
 
-        $columns[] = Html::tag('div', ChangeCount::widget(['model' => $item]), ['class' => 'col-lg-3 col-xs-2']);
+        $columns[] = Html::tag('div', ChangeCount::widget(['model' => $item]), ['class' => 'col-lg-3 col-xs-3']);
 
         $columns[] = Html::tag('div', $item->getCostFormatted(), ['class' => 'col-lg-2 col-xs-2']);
         
-        $columns[] = Html::tag('div', DeleteButton::widget(['model' => $item, 'cssClass' => 'delete']), ['class' => 'shop-cart-delete col-lg-2']);
+        $columns[] = Html::tag('div', DeleteButton::widget(['model' => $item, 'lineSelector' => 'pistol88-cart-row ', 'cssClass' => 'delete']), ['class' => 'shop-cart-delete col-lg-2']);
 
         $return = html::tag('div', implode('', $columns), ['class' => ' row']);
         return Html::tag('li', $return, ['class' => 'pistol88-cart-row ']);
