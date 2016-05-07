@@ -66,7 +66,7 @@ class ElementsList extends \yii\base\Widget {
             $cart = Html::tag('div', $button.$list, ['class' => 'pistol88-cart-dropdown dropdown']);
         }
         
-        return Html::tag('div', $cart, ['class' => 'pistol88-cart-block']);
+        return Html::tag('div', $cart, ['class' => 'pistol88-cart-block']); 
     }
 
     private function _row($item) {
