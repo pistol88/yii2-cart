@@ -2,7 +2,7 @@ Yii2-cart
 ==========
 Это модуль корзины для Yii2 фреймворка. Позволяет добавить в корзину любую модель, имплементирующую интерфейс pistol88\cart\interfaces\CartElement
 
-![Скриншот корзины](https://cloud.githubusercontent.com/assets/8104605/15093790/2cae3d40-14ab-11e6-9653-aae639017fa9.png)
+![yii2-cart](https://cloud.githubusercontent.com/assets/8104605/15093925/aeb7a35a-14ae-11e6-96b1-72b737fa4a58.png)
 
 Установка
 ---------------------------------
