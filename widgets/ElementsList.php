@@ -83,7 +83,7 @@ class ElementsList extends \yii\base\Widget {
 
         $columns[] = Html::tag('div', $cartElName, ['class' => 'col-lg-5 col-xs-6']);
 
-		$columns[] = Html::tag('div', ChangeCount::widget(['model' => $item]), ['class' => 'col-lg-3 col-xs-2']);
+        $columns[] = Html::tag('div', ChangeCount::widget(['model' => $item]), ['class' => 'col-lg-3 col-xs-2']);
 
         $columns[] = Html::tag('div', $item->getCostFormatted(), ['class' => 'col-lg-2 col-xs-2']);
         
