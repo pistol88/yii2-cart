@@ -5,6 +5,7 @@ namespace pistol88\cart\widgets;
 use pistol88\cart\models\Cart;
 use pistol88\cart\widgets\DeleteButton;
 use pistol88\cart\widgets\ChangeCount;
+use pistol88\cart\widgets\CartInformer;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii;
@@ -44,14 +45,6 @@ class ElementsList extends \yii\base\Widget {
         if (empty($elements)) {
             return Html::tag('div', yii::t('cart', 'Your cart empty'), ['class' => 'pistol88-cart pistol88-empty-cart']);
         }
-
-        if ($this->offerUrl && $this->showOffer) {
-            $elements[] = Html::a(yii::t('cart', 'Offer'), $this->offerUrl, ['class' => 'pistol88-cart-offer-button btn btn-success']);
-        }
-        
-        if ($this->showTotal) {
-            $elements[] = Html::tag('div', Yii::t('cart', 'Total') . ': ' . Html::tag('span', $this->cart->getCostFormatted(), ['class' => 'pistol88-cart-total']), ['class' => 'pistol88-cart-total-row']);
-        }
         
         $cart = Html::ul($elements, ['item' => function($item, $index) {
                     return $this->_row($item);
@@ -59,13 +52,21 @@ class ElementsList extends \yii\base\Widget {
 
         $cart = Html::tag('div', $cart, ['class' => 'pistol88-cart']);
         
+        if ($this->offerUrl && $this->showOffer) {
+            $cart .= Html::a(yii::t('cart', 'Offer'), $this->offerUrl, ['class' => 'pistol88-cart-offer-button btn btn-success']);
+        }
+        
+        if ($this->showTotal) {
+            $cart .= Html::tag('div', Yii::t('cart', 'Total') . ': ' . CartInformer::widget(), ['class' => 'pistol88-cart-total-row']);
+        }
+
         if ($this->type == 'dropdown') {
             $button = Html::button($this->textButton.Html::tag('span', '', ["class" => "caret"]), ['class' => 'btn dropdown-toggle', 'id' => 'pistol88-cart-drop', 'type' => "button", 'data-toggle' => "dropdown", 'aria-haspopup' => 'true', 'aria-expanded' => "false"]);
             $list = Html::tag('div', $cart, ['class' => 'dropdown-menu', 'aria-labelledby' => 'pistol88-cart-drop']);
             $cart = Html::tag('div', $button.$list, ['class' => 'pistol88-cart-dropdown dropdown']);
         }
         
-        return $cart;
+        return Html::tag('div', $cart, ['class' => 'pistol88-cart-block']);
     }
 
     private function _row($item) {
