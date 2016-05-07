@@ -4,6 +4,7 @@ namespace pistol88\cart\widgets;
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii;
 
 class BuyButton extends \yii\base\Widget {
 

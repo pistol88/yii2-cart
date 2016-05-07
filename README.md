@@ -116,7 +116,7 @@ use pistol88\cart\widgets\ChangeCount;
 <?php /* Выведет количество товаров и сумму заказа */ ?>
 <?= CartInformer::widget(['htmlTag' => 'a', 'offerUrl' => '/?r=cart', 'text' => '{c} на {p}']); ?>
 
-<?php /* Выведет корзину с выпадающими или обычными ('type' => 'full') элементами списком */ ?>
+<?php /* Выведет корзину с выпадающими или обычными ('type' => 'full') элементами списка */ ?>
 <?=ElementsList::widget(['type' => 'dropdown']);?>
 
 <?php /* Выведет кнопку удаления элемента */ ?>
