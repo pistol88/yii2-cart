@@ -96,7 +96,7 @@ class Cart extends Component
     {
         $returnModels = [];
         foreach ($this->_cart->elements as $element) {
-            if ($withModel && class_exists($element->model)) {
+            if ($withModel && is_string($element->model) && class_exists($element->model)) {
                 $model = '\\'.$element->model;
                 $productModel = new $model();
                 if ($productModel = $productModel::findOne($element->item_id)) {
