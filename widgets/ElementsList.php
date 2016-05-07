@@ -39,7 +39,7 @@ class ElementsList extends \yii\base\Widget {
     }
 
     public function run() {
-        $elements = $this->cart->getElements();
+        $elements = $this->cart->elements;
 
         if (empty($elements)) {
             return Html::tag('div', yii::t('cart', 'Your cart empty'), ['class' => 'pistol88-cart pistol88-empty-cart']);
@@ -50,7 +50,7 @@ class ElementsList extends \yii\base\Widget {
         }
         
         if ($this->showTotal) {
-            $elements[] = Html::tag('div', Yii::t('cart', 'Total') . ': ' . Html::tag('span', $this->cart->getCostFormatted(), ['class' => 'pistol88-cart-price']), ['style' => 'text-align: right;']);
+            $elements[] = Html::tag('div', Yii::t('cart', 'Total') . ': ' . Html::tag('span', $this->cart->getCostFormatted(), ['class' => 'pistol88-cart-total']), ['class' => 'pistol88-cart-total-row']);
         }
         
         $cart = Html::ul($elements, ['item' => function($item, $index) {
@@ -68,30 +68,25 @@ class ElementsList extends \yii\base\Widget {
         return $cart;
     }
 
-    private function _price($item) {
-        return Html::tag(
-            'div',
-            $item->getCostFormatted(),
-            ['class' => 'col-lg-2 price']
-        );
-    }
-    
     private function _row($item) {
         if (is_string($item)) {
-            return $item;
+            return html::tag('li', $item);
         }
         
         $columns = [];
 
-        $cartName = Html::tag('div', $item->model->getCartName(), ['class' => 'pistol88-cart-list-title']).Html::tag('div', ChangeCount::widget(['model' => $item]), ['class' => 'pistol88-cart-list-count']);
+        $cartElName = $item->model->getCartName();
 
-        if($item->description) {
-            $cartName .= ' ('.$item->description.')';
+        if($this->showDescription && $item->description) {
+            $cartElName .= ' ('.$item->description.')';
         }
 
-        $columns[] = Html::tag('div', $cartName, ['class' => 'col-lg-8']);
+        $columns[] = Html::tag('div', $cartElName, ['class' => 'col-lg-5 col-xs-6']);
 
-        $columns[] = $this->_price($item);
+		$columns[] = Html::tag('div', ChangeCount::widget(['model' => $item]), ['class' => 'col-lg-3 col-xs-2']);
+
+        $columns[] = Html::tag('div', $item->getCostFormatted(), ['class' => 'col-lg-2 col-xs-2']);
+        
         $columns[] = Html::tag('div', DeleteButton::widget(['model' => $item, 'cssClass' => 'delete']), ['class' => 'shop-cart-delete col-lg-2']);
 
         $return = html::tag('div', implode('', $columns), ['class' => ' row']);
