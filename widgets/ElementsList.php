@@ -53,21 +53,18 @@ class ElementsList extends \yii\base\Widget {
             $elements[] = Html::tag('div', Yii::t('cart', 'Total') . ': ' . Html::tag('span', $this->cart->getCostFormatted(), ['class' => 'pistol88-cart-price']), ['style' => 'text-align: right;']);
         }
         
-        if ($this->type == 'dropdown') {
-            $elementsHtml = Html::ul($elements, ['item' => function($item) {
+        $cart = Html::ul($elements, ['item' => function($item, $index) {
                     return $this->_row($item);
-                },
-                'class' => 'dropdown-menu',
-                'aria-labelledby' => 'pistol88-cart-block']
-            );
-            $cart = Html::tag('div', $elementsHtml, ['class' => 'pistol88-cart-dropdown']);
-        } else {
-            $cart = Html::ul($elements, ['item' => function($item, $index) {
-                    return $this->_row($item);
-                }, 'class' => 'pistol88-cart-full']);
-            $cart = Html::tag('div', $cart, ['class' => 'pistol88-cart']);
-        }
+                }, 'class' => 'pistol88-cart-list']);
 
+        $cart = Html::tag('div', $cart, ['class' => 'pistol88-cart']);
+        
+        if ($this->type == 'dropdown') {
+            $button = Html::button($this->textButton.Html::tag('span', '', ["class" => "caret"]), ['class' => 'btn dropdown-toggle', 'id' => 'pistol88-cart-drop', 'type' => "button", 'data-toggle' => "dropdown", 'aria-haspopup' => 'true', 'aria-expanded' => "false"]);
+            $list = Html::tag('div', $cart, ['class' => 'dropdown-menu', 'aria-labelledby' => 'pistol88-cart-drop']);
+            $cart = Html::tag('div', $button.$list, ['class' => 'pistol88-cart-dropdown dropdown']);
+        }
+        
         return $cart;
     }
 
@@ -92,20 +89,12 @@ class ElementsList extends \yii\base\Widget {
             $cartName .= ' ('.$item->description.')';
         }
 
-        $image = $item->model->getCartImage();
-
-        if($image) {
-            $columns[] = Html::tag('div', Html::img($image), ['class' => 'col-lg-2']);
-            $columns[] = Html::tag('div', $cartName, ['class' => 'col-lg-6']);
-        }
-        else {
-            $columns[] = Html::tag('div', $cartName, ['class' => 'col-lg-8']);
-        }
+        $columns[] = Html::tag('div', $cartName, ['class' => 'col-lg-8']);
 
         $columns[] = $this->_price($item);
         $columns[] = Html::tag('div', DeleteButton::widget(['model' => $item, 'cssClass' => 'delete']), ['class' => 'shop-cart-delete col-lg-2']);
 
-        $return = html::tag('div', implode('', $columns), ['class' => 'shop-cart-row row']);
-        return Html::tag('li', $return, ['class' => 'pistol88-cart-row shop-cart-row']);
+        $return = html::tag('div', implode('', $columns), ['class' => ' row']);
+        return Html::tag('li', $return, ['class' => 'pistol88-cart-row ']);
     }
 }
