@@ -1,5 +1,5 @@
 .pistol88-cart-block .dropdown-menu {
-    min-width: 280px;
+    min-width: 360px;
     padding: 10px;
 }
 
@@ -18,7 +18,11 @@
     margin: 1px;
 }
 
+.pistol88-cart .pistol88-cart-element-count {
+    width: 17px;
+}
+
 .pistol88-change-count input {
     text-align: center;
-    width: 40px;
+    width: 30px;
 }

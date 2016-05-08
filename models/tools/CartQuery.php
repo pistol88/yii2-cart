@@ -1,14 +1,13 @@
 <?php
-
 namespace pistol88\cart\models\tools;
 
 use yii\web\Session;
-use Yii;
 
-class CartQuery extends \yii\db\ActiveQuery {
+class CartQuery extends \yii\db\ActiveQuery
+{
 
-    public function my() {
-
+    public function my()
+    {
         $session = new Session;
         $session->open();
         if (!$userId = $session['tmp_user_id']) {

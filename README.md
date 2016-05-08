@@ -12,13 +12,13 @@ Yii2-cart
 php composer require pistol88/yii2-cart "*"
 ```
 
-Или добавьте в composer.json
+Или добавить в composer.json
 
 ```
 "pistol88/yii2-cart": "*",
 ```
 
-И выполните
+И выполнить
 
 ```
 php composer update
@@ -34,12 +34,15 @@ php yii migrate --migrationPath=vendor/pistol88/yii2-cart/migrations
 ---------------------------------
 В конфигурационный файл приложения добавить компонент cart
 ```php
+    'components' => [
         'cart' => [
             'class' => 'pistol88\cart\Cart',
             'currency' => 'р.', //Валюта
             'currencyPosition' => 'after', //after или before (позиция значка валюты относительно цены)
             'priceFormat' => [0,'.', ''], //Форма цены
         ],
+        //...
+    ]
 ```
 
 И модуль (если хотите использовать виджеты)
@@ -50,6 +53,7 @@ php yii migrate --migrationPath=vendor/pistol88/yii2-cart/migrations
             'class' => 'pistol88\cart\Module',
             'layoutPath' => 'frontend\views\layouts',
         ],
+        //...
     ]
 ```
 
@@ -76,14 +80,29 @@ class ProductController extends Controller
 
 ```php
 //...
-class Product extends ActiveRecord implements \pistol88\cart\interfaces\CartElement {
+class Product extends ActiveRecord implements \pistol88\cart\interfaces\CartElement
+{
     //..
-    public function getCartName() {
+    public function getCartId()
+    {
+        return $this->id;
+    }
+    
+    public function getCartName()
+    {
         return $this->name;
     }
-    public function getCartPrice() {
+    
+    public function getCartPrice()
+    {
         return $this->price;
     }
+    
+    //Опции продукта для выбора при добавлении в корзину
+	public function getCartOptions()
+	{
+		return ['color' => ['red', 'green'], 'size' => ['XXL', 'M']];
+	}
     //..
 }
 ```
@@ -96,21 +115,23 @@ $elements = yii::$app->cart->elements;
 
 Виджеты
 ==========
-В состав модуля входит несколько виджетов.
+В состав модуля входит несколько виджетов. Все работают аяксом.
 
 ```php
 <?php
 use pistol88\cart\widgets\BuyButton;
+use pistol88\cart\widgets\TruncateButton;
 use pistol88\cart\widgets\CartInformer;
 use pistol88\cart\widgets\ElementsList;
 use pistol88\cart\widgets\DeleteButton;
 use pistol88\cart\widgets\ChangeCount;
+use pistol88\cart\widgets\ChangeOptions;
 ?>
 
 <?php /* Выведет кнопку покупки */ ?>
 <?= BuyButton::widget([
 	'model' => $model,
-	'text' => 'заказать',
+	'text' => 'Заказать',
 	'htmlTag' => 'a',
 	'cssClass' => 'custom_class'
 ]) ?>
@@ -118,19 +139,24 @@ use pistol88\cart\widgets\ChangeCount;
 <?php /* Выведет количество товаров и сумму заказа */ ?>
 <?= CartInformer::widget(['htmlTag' => 'a', 'offerUrl' => '/?r=cart', 'text' => '{c} на {p}']); ?>
 
+<?php /* Выведет кнопку очистки корзины */ ?>
+<?= TruncateButton::widget(); ?>
+
 <?php /* Выведет корзину с выпадающими или обычными ('type' => 'full') элементами списка */ ?>
 <?=ElementsList::widget(['type' => 'dropdown']);?>
 
 <?php /* Выведет кнопку удаления элемента */ ?>
-<?=DeleteButton::widget(['model' => $item, 'text' => 'X']);?>
+<?=DeleteButton::widget(['model' => $item]);?>
 
 <?php
 /*
-Выведет кнопку изменения кол-ва элемента.
+Виджеты ниже позволят выбрать кол-во или опции элемента.
 Можно передать как модель элемента корзины, так и сам продукт,
 когда он еще не стал элементом.
 */ ?>
 <?=ChangeCount::widget(['model' => $item]);?>
+<?php /* У ChangeOptions можно изменить вид ('type' => 'radio') */ ?>
+<?=ChangeOptions::widget(['model' => $item]);?>
 ```
 
 Скидки
@@ -159,17 +185,20 @@ use yii\base\Behavior;
 use pistol88\cart\Cart;
 use yii;
 
-class Discount extends Behavior {
+class Discount extends Behavior
+{
 
     public $persent = 0;
 
-    public function events() {
+    public function events()
+    {
         return [
             Cart::EVENT_CART_COST => 'doDiscount'
         ];
     }
 
-    public function doDiscount($event) {
+    public function doDiscount($event)
+    {
         if($this->persent > 0 && $this->persent <= 100 && $event->cost > 0) {
             $hour = intval(date('H',time()));
             if(($hour >= 0 && $hour < 6)) {

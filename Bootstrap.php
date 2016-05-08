@@ -1,5 +1,4 @@
 <?php
-
 namespace pistol88\cart;
 
 use yii\base\BootstrapInterface;

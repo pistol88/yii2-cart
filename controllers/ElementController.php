@@ -1,19 +1,16 @@
 <?php
-
 namespace pistol88\cart\controllers;
 
 use pistol88\cart\models\Cart;
 use pistol88\cart\models\CartElement;
 use yii\helpers\Json;
 use yii\filters\VerbFilter;
-use Yii;
+use yii;
 
-class ElementController extends \yii\web\Controller {
-    function init() {
-		$this->enableCsrfValidation = false;
-	}
-	
-    public function behaviors() {
+class ElementController extends \yii\web\Controller
+{
+    public function behaviors()
+    {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -25,7 +22,8 @@ class ElementController extends \yii\web\Controller {
         ];
     }
     
-    function actionDelete() {
+    function actionDelete()
+    {
         $json = ['result' => 'undefind', 'error' => false];
         $elementId = Yii::$app->request->post('elementId');
 
@@ -39,7 +37,8 @@ class ElementController extends \yii\web\Controller {
         return $this->_cartJson($json);
     }
 	
-    function actionCreate() {
+    function actionCreate()
+    {
         $json = ['result' => 'undefind', 'error' => false];
 
         $cartModel = yii::$app->cart;
@@ -54,9 +53,14 @@ class ElementController extends \yii\web\Controller {
                 $productModel = new $model();
                 $productModel = $productModel::findOne($postData['CartElement']['item_id']);
 
-                $elementModel = $cartModel->put($productModel, $postData['CartElement']['count'], $postData['CartElement']['description']);
+                $options = null;
+                if(isset($postData['CartElement']['options'])) {
+                    $options = $postData['CartElement']['options'];
+                }
 
-                $json['elementId'] = $elementModel->id;
+                $elementModel = $cartModel->put($productModel, $postData['CartElement']['count'], $options);
+
+                $json['elementId'] = $elementModel->getCartId();
                 $json['result'] = 'success';
             }
             else {
@@ -68,7 +72,8 @@ class ElementController extends \yii\web\Controller {
         return $this->_cartJson($json);
     }
 
-    function actionUpdate() {
+    function actionUpdate()
+    {
         $json = ['result' => 'undefind', 'error' => false];
 
         $cartModel = yii::$app->cart;
@@ -80,7 +85,7 @@ class ElementController extends \yii\web\Controller {
         $elementModel = CartElement::find()->andWhere(['cart_id' => $cartModel->id, 'id' => $postData['CartElement']['id']])->one();
 
         if ($elementModel->load($postData) && $elementModel->save()) {
-            $json['elementId'] = $elementModel->id;
+            $json['elementId'] = $elementModel->getCartId();
             $json['result'] = 'success';
         } else {
             $json['result'] = 'fail';
@@ -90,7 +95,8 @@ class ElementController extends \yii\web\Controller {
         return $this->_cartJson($json);
     }
 
-    function _cartJson($json) {
+    function _cartJson($json)
+    {
         if ($cartModel = yii::$app->cart) {
             $json['elementsHTML'] = \pistol88\cart\widgets\ElementsList::widget();
             $json['count'] = $cartModel->getCount();

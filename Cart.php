@@ -1,24 +1,24 @@
 <?php
 namespace pistol88\cart;
 
-use yii;
 use yii\base\Component;
+use yii\di\ServiceLocator;
 use pistol88\cart\models\Cart as CartModel;
 use pistol88\cart\events\Cart as CartEvent;
 use pistol88\cart\models\CartElement;
 use pistol88\cart\events\CartElement as CartElementEvent;
+use yii;
 
 class Cart extends Component
 {
-
     const EVENT_CART_INIT = 'cart_init';
     const EVENT_CART_TRUNCATE = 'cart_truncate';
     const EVENT_CART_COST = 'cart_cost';
     const EVENT_CART_COUNT = 'cart_count';
     const EVENT_CART_PUT = 'cart_put';
     
-    protected $_cart = null;
-    protected $_cost = 0;
+    private $_cart = null;
+    private $_cost = 0;
     
     public $currency = NULL;
     public $behaviors = [];
@@ -46,13 +46,9 @@ class Cart extends Component
     public function getCost()
     {
         $cost = $this->_cart->getElements()->sum('price*count');
-
         $cartEvent = new CartEvent(['cart' => $this->_cart, 'cost' => $cost]);
-
         $this->trigger(self::EVENT_CART_COST, $cartEvent);
-
         $cost = $cartEvent->cost;
-
         $this->setCost($cost);
 
         return $this->_cost;
@@ -82,30 +78,16 @@ class Cart extends Component
     public function getCount()
     {
         $count = intval($this->_cart->getElements()->sum('count'));
-
         $cartEvent = new CartEvent(['cart' => $this->_cart, 'count' => $count]);
-
         $this->trigger(self::EVENT_CART_COUNT, $cartEvent);
-
         $count = $cartEvent->count;
 
         return $count;
     }
 
-    public function getElements($withModel = true)
+    public function getElements()
     {
-        $returnModels = [];
-        foreach ($this->_cart->elements as $element) {
-            if ($withModel && is_string($element->model) && class_exists($element->model)) {
-                $model = '\\'.$element->model;
-                $productModel = new $model();
-                if ($productModel = $productModel::findOne($element->item_id)) {
-                    $element->model = $productModel;
-                }
-            }
-            $returnModels[$element->id] = $element;
-        }
-        return $returnModels; 
+        return $this->_cart->elements;
     }
 
     public function getElementByModel(\pistol88\cart\interfaces\CartElement $model)
@@ -127,15 +109,17 @@ class Cart extends Component
         }
     }
 
-    public function put(\pistol88\cart\interfaces\CartElement $model, $count = 1, $description = '')
+    public function put(\pistol88\cart\interfaces\CartElement $model, $count = 1, $options = [])
     {
-        if (!$elementModel = $this->hasElement($model, $description)) {
+        if (!$elementModel = $this->hasElement($model, $options)) {
             $elementModel = new CartElement;
             $elementModel->count = (int)$count;
-            $elementModel->description = htmlspecialchars($description);
+            $elementModel->hash = $this->_generateHash($model, $options);
             $elementModel->price = $model->getCartPrice();
-            $elementModel->item_id = $model->id;
+            $elementModel->item_id = $model->getCartId();
             $elementModel->model = get_class($model);
+            $elementModel->options = json_encode($options);
+
             $elementModel->link('cart', $this->_cart);
             
             $elementEvent = new CartElementEvent(['element' => $elementModel]);
@@ -149,7 +133,6 @@ class Cart extends Component
                 }
             }
         } else {
-
             $elementModel->count += (int)$count;
             $elementModel->save();
 
@@ -163,13 +146,20 @@ class Cart extends Component
             $element->delete();
         }
         
+        $this->_cart = CartModel::find()->my();
+        
         $this->trigger(self::EVENT_CART_TRUNCATE, new CartEvent(['cart' => $this->_cart]));
         
         return $this->_cart;
     }
 
-    public function hasElement(\pistol88\cart\interfaces\CartElement $model, $description = '')
+    public function hasElement(\pistol88\cart\interfaces\CartElement $model, $options = [])
     {
-        return $this->_cart->getElements()->where(['description' => $description, 'model' => get_class($model), 'item_id' => $model->id])->one();
+        return $this->_cart->getElements()->where(['hash' => $this->_generateHash($model, $options), 'item_id' => $model->getCartId()])->one();
+    }
+    
+    private static function _generateHash(\pistol88\cart\interfaces\CartElement $model, $options = [])
+    {  
+        return md5(get_class($model).serialize($options));
     }
 }
