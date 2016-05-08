@@ -26,8 +26,7 @@ class ChangeOptions extends \yii\base\Widget
         if($this->model instanceof \pistol88\cart\interfaces\CartElement) {
             $optionsList = $this->model->getCartOptions();
             $changerCssClass = 'pistol88-option-values-before';
-        }
-        else {
+        } else {
             $optionsList = $this->model->cartElementModel->getCartOptions();
             $this->defaultValues = $this->model->getOptions();
             $changerCssClass = 'pistol88-option-values';
