@@ -22,3 +22,13 @@
     text-align: center;
     width: 40px;
 }
+
+.pistol88-cart-show-options {
+    font-size: 80%;
+}
+
+.pistol88-cart-row {
+    margin-top: 3px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #ccc;
+}

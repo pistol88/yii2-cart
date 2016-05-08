@@ -16,8 +16,8 @@ class ElementsList extends \yii\base\Widget
     public $type = 'full';
     public $model = NULL;
     public $cart = NULL;
-    public $showDescription = false;
     public $showTotal = false;
+    public $showOptions = true;
     public $showOffer = true;
     public $showTruncate = true;
 
@@ -91,8 +91,13 @@ class ElementsList extends \yii\base\Widget
 
         $cartElName = $item->cartElementModel->getCartName();
 
-        if($this->showDescription && $item->description) {
-            $cartElName .= ' ('.$item->description.')';
+        if($this->showOptions && $item->getOptions()) {
+            $options = '';
+            foreach($item->getOptions() as $option => $value) {
+                $options .= Html::tag('div', Html::tag('strong', $option) . ':' . $value);
+            }
+            
+            $cartElName .= Html::tag('div', $options, ['class' => 'pistol88-cart-show-options']);
         }
 
         $columns[] = Html::tag('div', $cartElName, ['class' => 'col-lg-5 col-xs-5']);
