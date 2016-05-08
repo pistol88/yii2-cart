@@ -2,6 +2,7 @@
 namespace pistol88\cart\models\tools;
 
 use yii\web\Session;
+use yii;
 
 class CartQuery extends \yii\db\ActiveQuery
 {
@@ -11,7 +12,7 @@ class CartQuery extends \yii\db\ActiveQuery
         $session = new Session;
         $session->open();
         if (!$userId = $session['tmp_user_id']) {
-            $userId = md5(time() . '-' . Yii::$app->request->userIP . Yii::$app->request->absoluteUrl);
+            $userId = md5(time() . '-' . yii::$app->request->userIP . Yii::$app->request->absoluteUrl);
             $session->set('tmp_user_id', $userId);
         }
 
