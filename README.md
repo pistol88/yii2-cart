@@ -162,57 +162,21 @@ use pistol88\cart\widgets\ChangeOptions;
 Скидки
 ==========
 Скидки реализуются через поведение и(или) событие. Корзине можно присвоить любое поведение (в конфиге):
-```
+
+```php
         'cart' => [
             'class' => 'pistol88\cart\Cart',
             //...
             'as discount' => [
-                'class' => 'common\behaviors\Discount',
+                'class' => 'pistol88\cart\behaviors\Discount',
                 'persent' => 50,
             ],
         ],
 ```
 
-Поведение цепляется к событию EVENT_CART_COST и задает скидку (например, ночную):
+Поведение цепляется к событию EVENT_CART_COST и задает скидку.
 
-```php
-<?php
-namespace common\behaviors;
-
-use yii\base\Behavior;
-use pistol88\cart\Cart;
-use yii;
-
-class Discount extends Behavior
-{
-
-    public $persent = 0;
-
-    public function events()
-    {
-        return [
-            Cart::EVENT_CART_COST => 'doDiscount'
-        ];
-    }
-
-    public function doDiscount($event)
-    {
-        if($this->persent > 0 && $this->persent <= 100 && $event->cost > 0) {
-            $hour = intval(date('H',time()));
-            if(($hour >= 0 && $hour < 6)) {
-                $nightPrice = ($event->cost*$this->persent)/100;
-                //Устанавливаем ночную цену
-                $event->cost = $nightPrice;
-            }
-        }
-        
-        return $this;
-    }
-}
-
-```
-
-Подцепиться к событию можно и так:
+Можно подцепиться напрямую к событию:
 
 ```php
         'cart' => [
@@ -225,7 +189,7 @@ class Discount extends Behavior
 
 ```
 
-Все события, к которым можно подцепиться поведением:
+Все события корзины:
 
  * EVENT_CART_COST - изменение цены
  * EVENT_CART_COUNT - изменение количества
