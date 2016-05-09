@@ -10,15 +10,15 @@ class CartElement extends \yii\db\ActiveRecord
     const EVENT_ELEMENT_UPDATE = 'element_count';
     const EVENT_ELEMENT_DELETE = 'element_delete';
     
-	public function getCartId()
-	{
-		return $this->id;
-	}
+    public function getCartId()
+    {
+        return $this->id;
+    }
 
-	public function getOptions()
-	{
-		return json_decode($this->options, true);
-	}
+    public function getOptions()
+    {
+        return json_decode($this->options, true);
+    }
     
     public function getCartElementModel()
     {
@@ -41,7 +41,7 @@ class CartElement extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return yii::$app->cart->elementBehaviors;
-	}
+    }
     
     public static function tableName()
     {
