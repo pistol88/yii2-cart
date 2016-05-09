@@ -27,14 +27,13 @@ class CartElement extends \yii\db\ActiveRecord
             $productModel = new $model();
             if ($productModel = $productModel::findOne($this->item_id)) {
                 $model = $productModel;
-            }
-            else {
+            } else {
                 throw new \yii\base\Exception('Element model not found');
             }
-        }
-        else {
+        } else {
             throw new \yii\base\Exception('Unknow element model');
         }
+        
         return $model;
     }
     
