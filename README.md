@@ -166,11 +166,9 @@ use pistol88\cart\widgets\ChangeOptions;
         'cart' => [
             'class' => 'pistol88\cart\Cart',
             //...
-            'behaviors' => [
-                'discount' => [
-                    'class' => 'common\behaviors\Discount',
-                    'persent' => 50,
-                ],
+            'as discount' => [
+                'class' => 'common\behaviors\Discount',
+                'persent' => 50,
             ],
         ],
 ```

@@ -21,16 +21,10 @@ class Cart extends Component
     private $_cost = 0;
     
     public $currency = NULL;
-    public $behaviors = [];
     public $elementBehaviors = [];
     public $currencyPosition = 'after';
     public $priceFormat = [2, '.', ''];
     public $id = null;
-
-    public function behaviors()
-    {
-        return $this->behaviors;
-    }
     
     public function init()
     {
