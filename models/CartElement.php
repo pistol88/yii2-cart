@@ -5,7 +5,7 @@ use pistol88\cart\models\Cart;
 use pistol88\cart\events\CartElement as CartElementEvent;
 use yii;
 
-class CartElement extends \yii\db\ActiveRecord implements \pistol88\cart\interfaces\CartElementService
+class CartElement extends \yii\db\ActiveRecord
 {
     const EVENT_ELEMENT_UPDATE = 'element_count';
     const EVENT_ELEMENT_DELETE = 'element_delete';
@@ -14,17 +14,7 @@ class CartElement extends \yii\db\ActiveRecord implements \pistol88\cart\interfa
 	{
 		return $this->id;
 	}
-	
-	public function getCount()
-	{
-		return $this->count;
-	}
-	
-	public function getPrice()
-	{
-		return $this->price;
-	}
-    
+
 	public function getOptions()
 	{
 		return json_decode($this->options, true);
