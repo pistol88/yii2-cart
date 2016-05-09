@@ -20,7 +20,7 @@ class Discount extends Behavior
     public function doDiscount($event)
     {
         if($this->persent > 0 && $this->persent <= 100 && $event->cost > 0) {
-            $event->cost = $nightPrice;
+            $event->cost = ($event->cost*$this->persent)/100;
         }
 
         return $this;
