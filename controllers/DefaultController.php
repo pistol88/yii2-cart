@@ -8,7 +8,6 @@ use yii;
 
 class DefaultController extends \yii\web\Controller
 {
-
     public function behaviors()
     {
         return [
@@ -23,27 +22,18 @@ class DefaultController extends \yii\web\Controller
 
     public function actionIndex()
     {
-        $cartModel = yii::$app->cart;
-
         if ($cartModel) {
-            $elements = $cartModel->getElements();
-            $count = $cartModel->getCount();
-            $price = $cartModel->getCostFormatted();
+            $elements = yii::$app->cart->getElements();
         } else {
             $elements = [];
-            $count = 0;
-            $price = 0;
         }
 
         return $this->render('index', [
-            'cartModel' => $cartModel,
-            'count' => $count,
-            'price' => $price,
             'elements' => $elements,
         ]);
     }
 
-    function actionTruncate()
+    public function actionTruncate()
     {
         $json = ['result' => 'undefind', 'error' => false];
 
@@ -59,7 +49,7 @@ class DefaultController extends \yii\web\Controller
         return $this->_cartJson($json);
     }
 
-    function _cartJson($json)
+    private function _cartJson($json)
     {
         if ($cartModel = yii::$app->cart) {
             $json['elementsHTML'] = \pistol88\cart\widgets\ElementsList::widget();
@@ -71,5 +61,4 @@ class DefaultController extends \yii\web\Controller
         }
         return Json::encode($json);
     }
-
 }

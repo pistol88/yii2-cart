@@ -174,7 +174,7 @@ use pistol88\cart\widgets\ChangeOptions;
         ],
 ```
 
-Поведение цепляется к событию EVENT_CART_COST и задает скидку.
+Поведение цепляется к событию EVENT_CART_COST и задает скидку (см. pistol88\cart\behaviors\Discount).
 
 Можно подцепиться напрямую к событию:
 

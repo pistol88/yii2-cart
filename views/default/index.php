@@ -11,7 +11,7 @@ $this->title = yii::t('cart', 'Cart');
 
 <div class="cart">
     <h1><?= yii::t('cart', 'Cart'); ?></h1>
-    <?php foreach($cartModel->elements as $element) { ?>
+    <?php foreach($elements as $element) { ?>
         <div class="row">
             <div class="col-lg-6 col-xs-6">
                 <strong><?=$element->cartElementModel->getCartName();?> (<?=$element->cartElementModel->getCartPrice();?> р.)</strong>

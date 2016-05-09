@@ -6,7 +6,6 @@ use yii;
 
 class CartQuery extends \yii\db\ActiveQuery
 {
-
     public function my()
     {
         $session = new Session;
@@ -26,5 +25,4 @@ class CartQuery extends \yii\db\ActiveQuery
         }
         return $one;
     }
-
 }

@@ -3,7 +3,6 @@ namespace pistol88\cart\behaviors;
 
 use yii\base\Behavior;
 use pistol88\cart\Cart;
-use yii;
 
 class Discount extends Behavior
 {

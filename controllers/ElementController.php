@@ -22,7 +22,7 @@ class ElementController extends \yii\web\Controller
         ];
     }
     
-    function actionDelete()
+    public function actionDelete()
     {
         $json = ['result' => 'undefind', 'error' => false];
         $elementId = Yii::$app->request->post('elementId');
@@ -37,7 +37,7 @@ class ElementController extends \yii\web\Controller
         return $this->_cartJson($json);
     }
 	
-    function actionCreate()
+    public function actionCreate()
     {
         $json = ['result' => 'undefind', 'error' => false];
 
@@ -72,7 +72,7 @@ class ElementController extends \yii\web\Controller
         return $this->_cartJson($json);
     }
 
-    function actionUpdate()
+    public function actionUpdate()
     {
         $json = ['result' => 'undefind', 'error' => false];
 
@@ -95,7 +95,7 @@ class ElementController extends \yii\web\Controller
         return $this->_cartJson($json);
     }
 
-    function _cartJson($json)
+    private function _cartJson($json)
     {
         if ($cartModel = yii::$app->cart) {
             $json['elementsHTML'] = \pistol88\cart\widgets\ElementsList::widget();
