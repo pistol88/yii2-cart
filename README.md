@@ -63,7 +63,6 @@ php yii migrate --migrationPath=vendor/pistol88/yii2-cart/migrations
 
 ```php
 //use...
-
 class ProductController extends Controller
 {
     public function actionAddToCart($id)
@@ -72,6 +71,7 @@ class ProductController extends Controller
         $model = $this->findModel($id);
         //Кладем ее в корзину (в количестве 1, без опций)
         $cartElement = yii::$app->cart->put($model, 1, []);
+    }
 }
 ```
 
