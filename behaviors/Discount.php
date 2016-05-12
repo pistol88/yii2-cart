@@ -6,7 +6,6 @@ use pistol88\cart\Cart;
 
 class Discount extends Behavior
 {
-
     public $persent = 0;
 
     public function events()

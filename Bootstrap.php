@@ -15,7 +15,6 @@ class Bootstrap implements BootstrapInterface
     {
         yii::$container->set(CartService::class, Cart::class);
         yii::$container->set(ElementService::class, CartElement::class);
-
         yii::$container->set('cartElement', CartElement::class);
 
         if (!isset($app->i18n->translations['cart']) && !isset($app->i18n->translations['cart*'])) {
