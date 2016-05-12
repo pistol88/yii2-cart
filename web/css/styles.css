@@ -1,9 +1,9 @@
-.pistol88-cart .dropdown-menu {
-    min-width: 360px;
+.pistol88-cart-block .dropdown-menu {
+    min-width: 280px;
     padding: 10px;
 }
 
-.pistol88-cart-row {
+.pistol88-cart-block .dropdown-menu {
     padding: 5px;
 }
 
@@ -18,11 +18,17 @@
     margin: 1px;
 }
 
-.pistol88-cart .pistol88-cart-element-count {
-    width: 17px;
-}
-
 .pistol88-change-count input {
     text-align: center;
-    width: 30px;
+    width: 40px;
+}
+
+.pistol88-cart-show-options {
+    font-size: 80%;
+}
+
+.pistol88-cart-row {
+    margin-top: 3px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #ccc;
 }

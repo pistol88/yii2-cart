@@ -2,6 +2,8 @@ Yii2-cart
 ==========
 Это модуль корзины для Yii2 фреймворка. Позволяет добавить в корзину любую модель, имплементирующую интерфейс pistol88\cart\interfaces\CartElement
 
+![yii2-cart](https://cloud.githubusercontent.com/assets/8104605/15093925/aeb7a35a-14ae-11e6-96b1-72b737fa4a58.png)
+
 Установка
 ---------------------------------
 Выполнить команду
@@ -10,13 +12,13 @@ Yii2-cart
 php composer require pistol88/yii2-cart "*"
 ```
 
-Или добавьте в composer.json
+Или добавить в composer.json
 
 ```
-"yiisoft/yii2-swiftmailer": "*",
+"pistol88/yii2-cart": "*",
 ```
 
-И выполните
+И выполнить
 
 ```
 php composer update
@@ -32,12 +34,15 @@ php yii migrate --migrationPath=vendor/pistol88/yii2-cart/migrations
 ---------------------------------
 В конфигурационный файл приложения добавить компонент cart
 ```php
+    'components' => [
         'cart' => [
             'class' => 'pistol88\cart\Cart',
             'currency' => 'р.', //Валюта
             'currencyPosition' => 'after', //after или before (позиция значка валюты относительно цены)
             'priceFormat' => [0,'.', ''], //Форма цены
         ],
+        //...
+    ]
 ```
 
 И модуль (если хотите использовать виджеты)
@@ -46,8 +51,8 @@ php yii migrate --migrationPath=vendor/pistol88/yii2-cart/migrations
     'modules' => [
         'cart' => [
             'class' => 'pistol88\cart\Module',
-            'layoutPath' => 'frontend\views\layouts',
         ],
+        //...
     ]
 ```
 
@@ -65,8 +70,8 @@ class ProductController extends Controller
     {
         //Любая модель
         $model = $this->findModel($id);
-        //Кладем ее в корзину
-        $cartElement = yii::$app->cart->put($model);
+        //Кладем ее в корзину (в количестве 1, без опций)
+        $cartElement = yii::$app->cart->put($model, 1, []);
 }
 ```
 
@@ -74,13 +79,28 @@ class ProductController extends Controller
 
 ```php
 //...
-class Product extends ActiveRecord implements \pistol88\cart\interfaces\CartElement {
+class Product extends ActiveRecord implements \pistol88\cart\interfaces\CartElement
+{
     //..
-    public function getCartName() {
+    public function getCartId()
+    {
+        return $this->id;
+    }
+    
+    public function getCartName()
+    {
         return $this->name;
     }
-    public function getCartPrice() {
+    
+    public function getCartPrice()
+    {
         return $this->price;
+    }
+    
+    //Опции продукта для выбора при добавлении в корзину
+    public function getCartOptions()
+    {
+        return ['Цвет' => ['Красный', 'Белый', 'Синий'], 'Размер' => ['XXL']];
     }
     //..
 }
@@ -94,21 +114,23 @@ $elements = yii::$app->cart->elements;
 
 Виджеты
 ==========
-В состав модуля входит несколько виджетов.
+В состав модуля входит несколько виджетов. Все работают аяксом.
 
 ```php
 <?php
 use pistol88\cart\widgets\BuyButton;
+use pistol88\cart\widgets\TruncateButton;
 use pistol88\cart\widgets\CartInformer;
 use pistol88\cart\widgets\ElementsList;
 use pistol88\cart\widgets\DeleteButton;
 use pistol88\cart\widgets\ChangeCount;
+use pistol88\cart\widgets\ChangeOptions;
 ?>
 
 <?php /* Выведет кнопку покупки */ ?>
 <?= BuyButton::widget([
 	'model' => $model,
-	'text' => 'заказать',
+	'text' => 'Заказать',
 	'htmlTag' => 'a',
 	'cssClass' => 'custom_class'
 ]) ?>
@@ -116,76 +138,57 @@ use pistol88\cart\widgets\ChangeCount;
 <?php /* Выведет количество товаров и сумму заказа */ ?>
 <?= CartInformer::widget(['htmlTag' => 'a', 'offerUrl' => '/?r=cart', 'text' => '{c} на {p}']); ?>
 
-<?php /* Выведет корзину с выпадающими или обычными ('type' => 'full') элементами списком */ ?>
+<?php /* Выведет кнопку очистки корзины */ ?>
+<?= TruncateButton::widget(); ?>
+
+<?php /* Выведет корзину с выпадающими или обычными ('type' => 'full') элементами списка */ ?>
 <?=ElementsList::widget(['type' => 'dropdown']);?>
 
 <?php /* Выведет кнопку удаления элемента */ ?>
-<?=DeleteButton::widget(['model' => $item, 'text' => 'X']);?>
+<?=DeleteButton::widget(['model' => $item]);?>
 
 <?php
 /*
-Выведет кнопку изменения кол-ва элемента.
-Можно передать как модель элемента корзины, так и непосредственной модели продукта,
-когда модели элемента еще нет.
+Виджеты ниже позволят выбрать кол-во или опции элемента.
+Можно передать как модель элемента корзины, так и сам продукт,
+когда он еще не стал элементом.
 */ ?>
 <?=ChangeCount::widget(['model' => $item]);?>
+<?php /* У ChangeOptions можно изменить вид ('type' => 'radio') */ ?>
+<?=ChangeOptions::widget(['model' => $item]);?>
 ```
 
 Скидки
 ==========
-Скидки реализуются через поведение и событие. Корзине можно присвоить любое поведение (в конфиге):
-```
+Скидки реализуются через поведение и(или) событие. Корзине можно присвоить любое поведение (в конфиге):
+
+```php
         'cart' => [
             'class' => 'pistol88\cart\Cart',
             //...
-            'behaviors' => [
-                'discount' => [
-                    'class' => 'common\behaviors\Discount',
-                    'persent' => 50,
-                ],
+            'as discount' => [
+                'class' => 'pistol88\cart\behaviors\Discount',
+                'persent' => 50,
             ],
         ],
 ```
 
-Поведение цепляется к событию EVENT_CART_COST и задает скидку (например, ночную):
+Поведение цепляется к событию EVENT_CART_COST и задает скидку (см. pistol88\cart\behaviors\Discount).
+
+Можно подцепиться напрямую к событию:
 
 ```php
-<?php
-namespace common\behaviors;
-
-use yii\base\Behavior;
-use pistol88\cart\Cart;
-use yii;
-
-class Discount extends Behavior {
-
-    public $persent = 0;
-
-    public function events() {
-        return [
-            Cart::EVENT_CART_COST => 'doDiscount'
-        ];
-    }
-
-    public function doDiscount($event) {
-        if($this->persent > 0 && $this->persent <= 100 && $event->cost > 0) {
-            $hour = intval(date('H',time()));
-            if(($hour >= 0 && $hour < 6)) {
-                $nightPrice = ($event->cost*$this->persent)/100;
-                //Устанавливаем ночную цену
-                $event->cost = $nightPrice;
+        'cart' => [
+            'class' => 'pistol88\cart\Cart',
+            //...
+            'on cart_cost' => function($event) {
+                $event->cost = ($event->cost*50)/100;
             }
-        }
-        
-        return $this;
-    }
-}
+        ],
 
 ```
 
-Таким же макаром можно сделать и наценку.
-
-Все события, к которым можно подцепиться поведением:
+Все события корзины:
 
  * EVENT_CART_COST - изменение цены
  * EVENT_CART_COUNT - изменение количества

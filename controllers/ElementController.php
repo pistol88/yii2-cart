@@ -1,19 +1,14 @@
 <?php
-
 namespace pistol88\cart\controllers;
 
-use pistol88\cart\models\Cart;
-use pistol88\cart\models\CartElement;
 use yii\helpers\Json;
 use yii\filters\VerbFilter;
-use Yii;
+use yii;
 
-class ElementController extends \yii\web\Controller {
-    function init() {
-		$this->enableCsrfValidation = false;
-	}
-	
-    public function behaviors() {
+class ElementController extends \yii\web\Controller
+{
+    public function behaviors()
+    {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -25,11 +20,16 @@ class ElementController extends \yii\web\Controller {
         ];
     }
     
-    function actionDelete() {
+    public function actionDelete()
+    {
         $json = ['result' => 'undefind', 'error' => false];
         $elementId = Yii::$app->request->post('elementId');
 
-        if(CartElement::findOne($elementId)->delete()) {
+        $cart = yii::$app->cart;
+        
+        $elementModel = $cart->getElementById($elementId);
+        
+        if($elementModel->delete()) {
             $json['result'] = 'success';
         }
         else {
@@ -39,58 +39,63 @@ class ElementController extends \yii\web\Controller {
         return $this->_cartJson($json);
     }
 	
-    function actionCreate() {
+    public function actionCreate()
+    {
         $json = ['result' => 'undefind', 'error' => false];
 
-        $cartModel = yii::$app->cart;
-
-        $json['cartId'] = $cartModel->id;
-
-        if ($cartModel->id) {
-            $postData = Yii::$app->request->post();
-
-            $model = $postData['CartElement']['model'];
-            if($model) {
-                $productModel = new $model();
-                $productModel = $productModel::findOne($postData['CartElement']['item_id']);
-
-                $elementModel = $cartModel->put($productModel, $postData['CartElement']['count'], $postData['CartElement']['description']);
-
-                $json['elementId'] = $elementModel->id;
-                $json['result'] = 'success';
-            }
-            else {
-                $json['result'] = 'fail';
-                $json['error'] = 'empty model';
-            }
-        }
-
-        return $this->_cartJson($json);
-    }
-
-    function actionUpdate() {
-        $json = ['result' => 'undefind', 'error' => false];
-
-        $cartModel = yii::$app->cart;
-        
-        $json['cartId'] = $cartModel->id;
+        $cart = yii::$app->cart;
 
         $postData = Yii::$app->request->post();
-        
-        $elementModel = CartElement::find()->andWhere(['cart_id' => $cartModel->id, 'id' => $postData['CartElement']['id']])->one();
 
-        if ($elementModel->load($postData) && $elementModel->save()) {
-            $json['elementId'] = $elementModel->id;
+        $model = $postData['CartElement']['model'];
+        if($model) {
+            $productModel = new $model();
+            $productModel = $productModel::findOne($postData['CartElement']['item_id']);
+
+            $options = null;
+            if(isset($postData['CartElement']['options'])) {
+                $options = $postData['CartElement']['options'];
+            }
+
+            $elementModel = $cart->put($productModel, $postData['CartElement']['count'], $options);
+
+            $json['elementId'] = $elementModel->getId();
             $json['result'] = 'success';
-        } else {
+        }
+        else {
             $json['result'] = 'fail';
-            $json['error'] = $elementModel->getErrors();
+            $json['error'] = 'empty model';
         }
 
         return $this->_cartJson($json);
     }
 
-    function _cartJson($json) {
+    public function actionUpdate()
+    {
+        $json = ['result' => 'undefind', 'error' => false];
+
+        $cart = yii::$app->cart;
+        
+        $postData = Yii::$app->request->post();
+
+        $elementModel = $cart->getElementById($postData['CartElement']['id']);
+        
+        if(isset($postData['CartElement']['count'])) {
+            $elementModel->setCount($postData['CartElement']['count'], true);
+        }
+        
+        if(isset($postData['CartElement']['options'])) {
+            $elementModel->setOptions($postData['CartElement']['options'], true);
+        }
+        
+        $json['elementId'] = $elementModel->getId();
+        $json['result'] = 'success';
+
+        return $this->_cartJson($json);
+    }
+
+    private function _cartJson($json)
+    {
         if ($cartModel = yii::$app->cart) {
             $json['elementsHTML'] = \pistol88\cart\widgets\ElementsList::widget();
             $json['count'] = $cartModel->getCount();
