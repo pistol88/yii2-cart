@@ -54,6 +54,10 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
     
     public function getOptions()
     {
+        if(empty($this->options)) {
+            return [];
+        }
+        
         return json_decode($this->options, true);
     }
     

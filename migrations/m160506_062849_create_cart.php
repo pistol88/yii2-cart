@@ -33,7 +33,7 @@ class m160506_062849_create_cart extends Migration
                 'count' => Schema::TYPE_INTEGER . '(11) NOT NULL',
                 'price' => Schema::TYPE_DECIMAL . '(11, 2) NOT NULL',
                 'hash' => Schema::TYPE_STRING . '(255) NOT NULL',
-                'options' => Schema::TYPE_TEXT . ' NOT NULL',
+                'options' => Schema::TYPE_TEXT . ' NULL',
             ],
             $tableOptions
         );
