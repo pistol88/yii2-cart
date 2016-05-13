@@ -10,12 +10,16 @@ class CartQuery extends \yii\db\ActiveQuery
     {
         $session = new Session;
         $session->open();
-        if (!$userId = $session['tmp_user_id']) {
-            $userId = md5(time() . '-' . yii::$app->request->userIP . Yii::$app->request->absoluteUrl);
-            $session->set('tmp_user_id', $userId);
+
+        if(!$userId = yii::$app->user->id) {
+            if (!$userId = $session['tmp_user_id']) {
+                $userId = md5(time() . '-' . yii::$app->request->userIP . Yii::$app->request->absoluteUrl);
+                $session->set('tmp_user_id', $userId);
+            }
         }
 
         $one = $this->andWhere(['user_id' => $userId])->one();
+        
         if (!$one) {
             $one = new \pistol88\cart\models\Cart;
             $one->created_time = time();
@@ -23,6 +27,7 @@ class CartQuery extends \yii\db\ActiveQuery
             $one->user_id = $userId;
             $one->save();
         }
+        
         return $one;
     }
 }
