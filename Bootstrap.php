@@ -2,19 +2,15 @@
 namespace pistol88\cart;
 
 use yii\base\BootstrapInterface;
-use pistol88\cart\interfaces\CartService;
-use pistol88\cart\interfaces\ElementService;
-use pistol88\cart\models\Cart;
-use pistol88\cart\models\CartElement;
 use yii;
 
 class Bootstrap implements BootstrapInterface
 {
     public function bootstrap($app)
     {
-        yii::$container->set(CartService::class, Cart::class);
-        yii::$container->set(ElementService::class, CartElement::class);
-        yii::$container->set('cartElement', CartElement::class);
+        yii::$container->set('pistol88\cart\interfaces\CartService', 'pistol88\cart\models\Cart');
+        yii::$container->set('pistol88\cart\interfaces\ElementService', 'pistol88\cart\models\CartElement');
+        yii::$container->set('cartElement', 'pistol88\cart\models\CartElement');
 
         if (!isset($app->i18n->translations['cart']) && !isset($app->i18n->translations['cart*'])) {
             $app->i18n->translations['cart'] = [
