@@ -141,8 +141,8 @@ use pistol88\cart\widgets\ChangeOptions;
 <?php /* Выведет кнопку очистки корзины */ ?>
 <?= TruncateButton::widget(); ?>
 
-<?php /* Выведет корзину с выпадающими или обычными ('type' => 'full') элементами списка */ ?>
-<?=ElementsList::widget(['type' => 'dropdown']);?>
+<?php /* Выведет корзину с выпадающими или обычными ('type' => ElementsList::TYPE_FULL) элементами списка */ ?>
+<?=ElementsList::widget(['type' => ElementsList::TYPE_DROPDOWN]);?>
 
 <?php /* Выведет кнопку удаления элемента */ ?>
 <?=DeleteButton::widget(['model' => $item]);?>
@@ -154,7 +154,7 @@ use pistol88\cart\widgets\ChangeOptions;
 когда он еще не стал элементом.
 */ ?>
 <?=ChangeCount::widget(['model' => $item]);?>
-<?php /* У ChangeOptions можно изменить вид ('type' => 'radio') */ ?>
+<?php /* У ChangeOptions можно изменить вид ('type' => ChangeOptions::TYPE_RADIO) */ ?>
 <?=ChangeOptions::widget(['model' => $item]);?>
 ```
 

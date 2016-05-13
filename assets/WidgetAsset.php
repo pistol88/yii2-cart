@@ -13,13 +13,14 @@ class WidgetAsset extends AssetBundle
     public $js = [
         'js/scripts.js',
     ];
+    
     public $css = [
         'css/styles.css',
     ];
 
-    public function init() {
+    public function init()
+    {
         $this->sourcePath = __DIR__ . '/../web';
         parent::init();
     }
-
 }

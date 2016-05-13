@@ -10,7 +10,6 @@ use yii;
 
 class Bootstrap implements BootstrapInterface
 {
-
     public function bootstrap($app)
     {
         yii::$container->set(CartService::class, Cart::class);
@@ -25,5 +24,4 @@ class Bootstrap implements BootstrapInterface
             ];
         }
     }
-
 }

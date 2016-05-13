@@ -7,13 +7,20 @@ use yii;
 
 class ChangeOptions extends \yii\base\Widget
 {
+    const TYPE_SELECT = 'select';
+    const TYPE_RADIO = 'radio';
+    
     public $model = NULL;
-    public $type = 'select';
+    public $type = NULL;
     public $cssClass = '';
     public $defaultValues = [];
 
     public function init()
     {
+        if ($this->type == NULL) {
+            $this->type = self::TYPE_SELECT;
+        }
+        
         parent::init();
         
         \pistol88\cart\assets\WidgetAsset::register($this->getView());
@@ -81,5 +88,4 @@ class ChangeOptions extends \yii\base\Widget
         
         return false;
     }
-
 }

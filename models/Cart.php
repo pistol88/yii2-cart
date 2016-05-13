@@ -6,11 +6,11 @@ use yii;
 
 class Cart extends \yii\db\ActiveRecord implements CartService
 {
-    private $_element = null;
+    private $element = null;
     
     public function init()
     {
-        $this->_element = yii::$container->get('cartElement');
+        $this->element = yii::$container->get('cartElement');
     }
     
     public function my()
@@ -33,7 +33,7 @@ class Cart extends \yii\db\ActiveRecord implements CartService
 
     public function getElements()
     {
-        return $this->hasMany($this->_element, ['cart_id' => 'id']);
+        return $this->hasMany($this->element, ['cart_id' => 'id']);
     }
     
     public function getElement(\pistol88\cart\interfaces\CartElement $model, $options = [])

@@ -43,5 +43,4 @@ class CartInformer extends \yii\base\Widget
                 'class' => "pistol88-cart-informer {$this->cssClass}",
         ]);
     }
-
 }

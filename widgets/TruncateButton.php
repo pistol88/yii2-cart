@@ -26,5 +26,4 @@ class TruncateButton extends \yii\base\Widget
     {
         return Html::a(Html::encode($this->text), ['/cart/default/truncate'], ['class' => 'pistol88-cart-truncate-button ' . $this->cssClass]);
     }
-
 }

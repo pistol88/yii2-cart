@@ -11,9 +11,12 @@ use yii;
 
 class ElementsList extends \yii\base\Widget
 {
+    const TYPE_DROPDOWN = 'dropdown';
+    const TYPE_FULL = 'full';
+    
     public $offerUrl = NULL;
     public $textButton = NULL;
-    public $type = 'full';
+    public $type = NULL;
     public $model = NULL;
     public $cart = NULL;
     public $showTotal = false;
@@ -25,7 +28,9 @@ class ElementsList extends \yii\base\Widget
     
     public function init()
     {
-        parent::init();
+        if ($this->type == NULL) {
+            $this->type = self::TYPE_FULL;
+        }
 
         if ($this->offerUrl == NULL) {
             $this->offerUrl = Url::toRoute(['/cart/default/index']);
@@ -48,6 +53,8 @@ class ElementsList extends \yii\base\Widget
         }
    
         \pistol88\cart\assets\WidgetAsset::register($this->getView());
+        
+        parent::init();
         
         return true;
     }
@@ -82,7 +89,7 @@ class ElementsList extends \yii\base\Widget
             $cart .= Html::tag('div', Yii::t('cart', 'Total') . ': ' . CartInformer::widget(), ['class' => 'pistol88-cart-total-row']);
         }
 
-        if ($this->type == 'dropdown') {
+        if ($this->type == self::TYPE_DROPDOWN) {
             $button = Html::button($this->textButton.Html::tag('span', '', ["class" => "caret"]), ['class' => 'btn dropdown-toggle', 'id' => 'pistol88-cart-drop', 'type' => "button", 'data-toggle' => "dropdown", 'aria-haspopup' => 'true', 'aria-expanded' => "false"]);
             $list = Html::tag('div', $cart, ['class' => 'dropdown-menu', 'aria-labelledby' => 'pistol88-cart-drop']);
             $cart = Html::tag('div', $button.$list, ['class' => 'pistol88-cart-dropdown dropdown']);

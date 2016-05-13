@@ -51,5 +51,4 @@ class ChangeCount extends \yii\base\Widget
         
         return Html::tag('div', $downArr.$input.$upArr, ['class' => $this->cssClass]);
     }
-
 }

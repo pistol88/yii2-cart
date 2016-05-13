@@ -47,5 +47,4 @@ class BuyButton extends \yii\base\Widget
             'data-model' => $model::className()
         ]);
     }
-
 }
