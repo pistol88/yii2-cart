@@ -102,7 +102,7 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
     
     public static function tableName()
     {
-        return 'cart_element';
+        return '{{%cart_element}}';
     }
 
     public function getCost()

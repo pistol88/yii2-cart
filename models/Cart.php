@@ -90,7 +90,7 @@ class Cart extends \yii\db\ActiveRecord implements CartService
     
     public static function tableName()
     {
-        return 'cart';
+        return '{{%cart}}';
     }
     
     public function beforeDelete()
