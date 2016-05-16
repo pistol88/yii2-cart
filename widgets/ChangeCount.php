@@ -38,7 +38,7 @@ class ChangeCount extends \yii\base\Widget
                 'type' => 'number',
                 'class' => 'pistol88-cart-element-count',
                 'data-line-selector' => $this->lineSelector,
-                'data-id' => $this->model->getId(),
+                'data-id' => $this->model->getCartId(),
                 'data-href' => Url::toRoute("/cart/element/update"),
             ]);
         } else {
