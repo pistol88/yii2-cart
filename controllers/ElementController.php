@@ -23,7 +23,7 @@ class ElementController extends \yii\web\Controller
     public function actionDelete()
     {
         $json = ['result' => 'undefind', 'error' => false];
-        $elementId = Yii::$app->request->post('elementId');
+        $elementId = yii::$app->request->post('elementId');
 
         $cart = yii::$app->cart;
         
@@ -45,7 +45,7 @@ class ElementController extends \yii\web\Controller
 
         $cart = yii::$app->cart;
 
-        $postData = Yii::$app->request->post();
+        $postData = yii::$app->request->post();
 
         $model = $postData['CartElement']['model'];
         if($model) {
@@ -76,7 +76,7 @@ class ElementController extends \yii\web\Controller
 
         $cart = yii::$app->cart;
         
-        $postData = Yii::$app->request->post();
+        $postData = yii::$app->request->post();
 
         $elementModel = $cart->getElementById($postData['CartElement']['id']);
         
