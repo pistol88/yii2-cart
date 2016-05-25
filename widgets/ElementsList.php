@@ -21,7 +21,7 @@ class ElementsList extends \yii\base\Widget
     public $cart = NULL;
     public $showTotal = false;
     public $showOptions = true;
-    public $showOffer = true;
+    public $showOffer = false;
     public $showTruncate = true;
     public $currency = null;
     public $currencyPosition = null;
@@ -72,8 +72,10 @@ class ElementsList extends \yii\base\Widget
 		}
 		
         if (!empty($elements)) {
+            $bottomPanel = '';
+            
             if($this->offerUrl && $this->showOffer) {
-                $bottomPanel = Html::a(yii::t('cart', 'Offer'), $this->offerUrl, ['class' => 'pistol88-cart-offer-button btn btn-success']);
+                $bottomPanel .= Html::a(yii::t('cart', 'Offer'), $this->offerUrl, ['class' => 'pistol88-cart-offer-button btn btn-success']);
             }
             
             if($this->showTruncate) {
