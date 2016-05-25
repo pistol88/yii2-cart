@@ -25,6 +25,7 @@ class ElementsList extends \yii\base\Widget
     public $showTruncate = true;
     public $currency = null;
     public $currencyPosition = null;
+    public $showCountArrows = true;
     
     public function init()
     {
@@ -121,7 +122,7 @@ class ElementsList extends \yii\base\Widget
 
         $columns[] = Html::tag('div', $cartElName, ['class' => 'col-lg-5 col-xs-5']);
 
-        $columns[] = Html::tag('div', ChangeCount::widget(['model' => $item, 'showArrows' => false]), ['class' => 'col-lg-3 col-xs-3']);
+        $columns[] = Html::tag('div', ChangeCount::widget(['model' => $item, 'showArrows' => $this->showCountArrows]), ['class' => 'col-lg-3 col-xs-3']);
 
         $columns[] = Html::tag('div', $this->_getCostFormatted($item->getCost()), ['class' => 'col-lg-2 col-xs-2']);
         
