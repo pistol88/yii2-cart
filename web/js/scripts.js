@@ -169,6 +169,14 @@ pistol88.cart = {
         return false;
     },
     renderCart: function(json) {
+        if(!json) {
+            var json = {};
+            jQuery.post('/cart/default/info', {},
+                function(answer) {
+                    json = answer;
+                }, "json");
+        }
+        
         jQuery('.pistol88-empty-cart, .pistol88-cart').replaceWith(json.elementsHTML);
         jQuery('.pistol88-cart-count').html(json.count);
         jQuery('.pistol88-cart-price').html(json.price);

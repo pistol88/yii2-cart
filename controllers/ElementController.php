@@ -52,7 +52,7 @@ class ElementController extends \yii\web\Controller
             $productModel = new $model();
             $productModel = $productModel::findOne($postData['CartElement']['item_id']);
 
-            $options = null;
+            $options = [];
             if(isset($postData['CartElement']['options'])) {
                 $options = $postData['CartElement']['options'];
             }
@@ -61,8 +61,7 @@ class ElementController extends \yii\web\Controller
 
             $json['elementId'] = $elementModel->getId();
             $json['result'] = 'success';
-        }
-        else {
+        } else {
             $json['result'] = 'fail';
             $json['error'] = 'empty model';
         }

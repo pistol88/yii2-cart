@@ -13,6 +13,7 @@ class BuyButton extends \yii\base\Widget
     public $description = '';
     public $cssClass = NULL;
     public $htmlTag = 'a';
+    public $options = null;
 
     public function init()
     {
@@ -20,6 +21,10 @@ class BuyButton extends \yii\base\Widget
 
         \pistol88\cart\assets\WidgetAsset::register($this->getView());
 
+        if ($this->options === NULL) {
+            $this->options = (object)[];
+        }
+        
         if ($this->text === NULL) {
             $this->text = Yii::t('cart', 'Buy');
         }
@@ -43,6 +48,7 @@ class BuyButton extends \yii\base\Widget
             'class' => "pistol88-cart-buy-button pistol88-cart-buy-button{$this->model->getCartId()} {$this->cssClass}",
             'data-id' => $model->getCartId(),
             'data-count' => $this->count,
+            'data-options' => json_encode($this->options),
             'data-description' => $this->description,
             'data-model' => $model::className()
         ]);

@@ -45,6 +45,10 @@ class DefaultController extends \yii\web\Controller
         return $this->_cartJson($json);
     }
 
+    public function actionInfo() {
+        return $this->_cartJson();
+    }
+    
     private function _cartJson($json)
     {
         if ($cartModel = yii::$app->cart) {
