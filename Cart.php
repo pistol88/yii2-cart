@@ -11,7 +11,7 @@ class Cart extends Component
 {
     const EVENT_CART_INIT = 'cart_init';
     const EVENT_CART_TRUNCATE = 'cart_truncate';
-    const EVENT_CART_COST = 'cartcost';
+    const EVENT_CART_COST = 'cart_cost';
     const EVENT_CART_COUNT = 'cart_count';
     const EVENT_CART_PUT = 'cart_put';
     
