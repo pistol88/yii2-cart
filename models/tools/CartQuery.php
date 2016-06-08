@@ -8,11 +8,10 @@ class CartQuery extends \yii\db\ActiveQuery
 {
     public function my()
     {
-        $session = new Session;
-        $session->open();
+        $session = yii::$app->session;
 
         if(!$userId = yii::$app->user->id) {
-            if (!$userId = $session['tmp_user_id']) {
+            if (!$userId = $session->get('tmp_user_id')) {
                 $userId = md5(time() . '-' . yii::$app->request->userIP . Yii::$app->request->absoluteUrl);
                 $session->set('tmp_user_id', $userId);
             }
