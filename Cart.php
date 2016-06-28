@@ -100,9 +100,9 @@ class Cart extends Component
         $price = number_format($this->getCost(), $this->priceFormat[0], $this->priceFormat[1], $this->priceFormat[2]);
 
         if ($this->currencyPosition == 'after') {
-            return "$price{$this->currency}";
+            return "<span>$price</span>{$this->currency}";
         } else {
-            return "{$this->currency}$price";
+            return "<span>{$this->currency}</span>$price";
         }
     }
     
