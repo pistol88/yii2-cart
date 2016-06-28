@@ -4,6 +4,8 @@ Yii2-cart
 
 ![yii2-cart](https://cloud.githubusercontent.com/assets/8104605/15093925/aeb7a35a-14ae-11e6-96b1-72b737fa4a58.png)
 
+Для добавления функционала заказа можно использовать этот модуль: [pistol88/yii2-order](https://github.com/pistol88/yii2-order).
+
 Установка
 ---------------------------------
 Выполнить команду
