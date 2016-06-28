@@ -28,8 +28,7 @@ class ChangeCount extends \yii\base\Widget
         if($this->showArrows) {
             $downArr = Html::a($this->downArr, '#', ['class' => 'pistol88-arr pistol88-downArr']);
             $upArr = Html::a($this->upArr, '#', ['class' => 'pistol88-arr pistol88-upArr']);
-        }
-        else {
+        } else {
             $downArr = $upArr = '';
         }
         

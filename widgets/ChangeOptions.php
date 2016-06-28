@@ -69,7 +69,7 @@ class ChangeOptions extends \yii\base\Widget
                         ['itemOptions' => ['data-href' => Url::toRoute(["/cart/element/update"]), 'data-name' => $option, 'data-id' => $id, 'class' => $cssClass]]
                     );
                 }
-                $options[] = Html::tag('form', $list, ['class' => "pistol88-option"]);
+                $options[] = Html::tag('div', $list, ['class' => "pistol88-option"]);
                 $i++;
             }
         }
