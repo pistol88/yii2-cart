@@ -24,11 +24,35 @@ class ElementsList extends \yii\base\Widget
     public $showOffer = false;
     public $showTruncate = true;
     public $currency = null;
+    public $otherFields = [];
     public $currencyPosition = null;
     public $showCountArrows = true;
     
     public function init()
     {
+        $paramsArr = [
+                'offerUrl' => $this->offerUrl,
+                'textButton' => $this->textButton,
+                'type' => $this->type,
+                'model' => $this->model,
+                'showTotal' => $this->showTotal,
+                'showOptions' => $this->showOptions,
+                'showOffer' => $this->showOffer,
+                'showTruncate' => $this->showTruncate,
+                'currency' => $this->currency,
+                'otherFields' => $this->otherFields,
+                'currencyPosition' => $this->currencyPosition,
+                'showCountArrows' => $this->showCountArrows
+            ];
+        
+        foreach($paramsArr as $key => $value) {
+            if($value === 'false') {
+                $this->$key = false;
+            }
+        }
+
+        $this->getView()->registerJs("pistol88.cart.elementsListWidgetParams = ".json_encode($paramsArr));
+        
         if ($this->type == NULL) {
             $this->type = self::TYPE_FULL;
         }
@@ -54,10 +78,8 @@ class ElementsList extends \yii\base\Widget
         }
    
         \pistol88\cart\assets\WidgetAsset::register($this->getView());
-        
-        parent::init();
-        
-        return true;
+
+        return parent::init();
     }
 
     public function run()
@@ -109,7 +131,9 @@ class ElementsList extends \yii\base\Widget
         
         $columns = [];
 
-        $cartElName = $item->getModel()->getCartName();
+        $product = $item->getModel();
+        
+        $cartElName = $product->getCartName();
 
         if($this->showOptions && $item->getOptions()) {
             $options = '';
@@ -120,6 +144,12 @@ class ElementsList extends \yii\base\Widget
             $cartElName .= Html::tag('div', $options, ['class' => 'pistol88-cart-show-options']);
         }
 
+        if(!empty($this->otherFields)) {
+            foreach($this->otherFields as $fieldName => $field) {
+                $cartElName .= Html::tag('p', Html::tag('small', $fieldName.': '.$product->$field));
+            }
+        }
+        
         $columns[] = Html::tag('div', $cartElName, ['class' => 'col-lg-5 col-xs-5']);
 
         $columns[] = Html::tag('div', ChangeCount::widget(['model' => $item, 'showArrows' => $this->showCountArrows]), ['class' => 'col-lg-3 col-xs-3']);

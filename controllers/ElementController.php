@@ -96,7 +96,11 @@ class ElementController extends \yii\web\Controller
     private function _cartJson($json)
     {
         if ($cartModel = yii::$app->cart) {
-            $json['elementsHTML'] = \pistol88\cart\widgets\ElementsList::widget();
+            if(!$elementsListWidgetParams = yii::$app->request->post('elementsListWidgetParams')) {
+                $elementsListWidgetParams = [];
+            }
+            
+            $json['elementsHTML'] = \pistol88\cart\widgets\ElementsList::widget($elementsListWidgetParams);
             $json['count'] = $cartModel->getCount();
             $json['price'] = $cartModel->getCostFormatted();
         } else {

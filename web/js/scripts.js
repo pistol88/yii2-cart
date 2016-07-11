@@ -17,6 +17,7 @@ pistol88.cart = {
         $(document).on('change', '.pistol88-option-values', this.changeElementOptions);
         return true;
     },
+    elementsListWidgetParams: [],
     jsonResult: null,
     csrf: null,
     csrf_param: null,
@@ -153,6 +154,7 @@ pistol88.cart = {
 
         jQuery(document).trigger("sendDataToCart", data);
 
+        data.elementsListWidgetParams = pistol88.cart.elementsListWidgetParams;
         data[pistol88.cart.csrf_param] = pistol88.cart.csrf;
 
         jQuery.post(link, data,
