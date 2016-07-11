@@ -143,7 +143,12 @@ use pistol88\cart\widgets\ChangeOptions;
 <?php /* Выведет кнопку очистки корзины */ ?>
 <?= TruncateButton::widget(); ?>
 
-<?php /* Выведет корзину с выпадающими или обычными ('type' => ElementsList::TYPE_FULL) элементами списка */ ?>
+<?php
+/*
+Выведет корзину с выпадающими или обычными ('type' => ElementsList::TYPE_FULL) элементами списка.
+Можно передать перечень дополнительных полей через otherFields (['Остаток' => 'amount']).
+*/
+?>
 <?=ElementsList::widget(['type' => ElementsList::TYPE_DROPDOWN]);?>
 
 <?php /* Выведет кнопку удаления элемента */ ?>
