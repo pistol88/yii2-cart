@@ -137,6 +137,7 @@ pistol88.cart = {
         data.CartElement.model = jQuery(this).data('model');
         data.CartElement.item_id = jQuery(this).data('id');
         data.CartElement.count = jQuery(this).data('count');
+        data.CartElement.price = jQuery(this).data('price');
         data.CartElement.options = jQuery(this).data('options');
 
         pistol88.cart.sendData(data, jQuery(this).attr('href'));

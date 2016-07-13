@@ -66,6 +66,32 @@ class Cart extends Component
         return $elementModel;
     }
 
+    public function putWithPrice(\pistol88\cart\interfaces\CartElement $model, $price = 0, $count = 1, $options = [])
+    {
+        if (!$elementModel = $this->cart->getElement($model, $options)) {
+            $elementModel = $this->element;
+            $elementModel->setCount((int)$count);
+            $elementModel->setPrice($price);
+            $elementModel->setItemId($model->getCartId());
+            $elementModel->setModel(get_class($model));
+            $elementModel->setOptions($options);
+
+            $elementEvent = new CartElementEvent(['element' => $elementModel]);
+            $this->trigger(self::EVENT_CART_PUT, $elementEvent);
+            
+            if(!$elementEvent->stop) {
+                try {
+                    $this->cart->put($elementModel);
+                } catch (Exception $e) {
+                    throw new \yii\base\Exception(current($e->getMessage()));
+                }
+            }
+        } else {
+            $elementModel->countIncrement($count);
+        }
+        return $elementModel;
+    }
+    
     public function getElements()
     {
         return $this->cart->elements;

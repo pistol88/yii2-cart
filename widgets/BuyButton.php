@@ -10,6 +10,7 @@ class BuyButton extends \yii\base\Widget
     public $text = NULL;
     public $model = NULL;
     public $count = 1;
+    public $price = false;
     public $description = '';
     public $cssClass = NULL;
     public $htmlTag = 'a';
@@ -48,6 +49,7 @@ class BuyButton extends \yii\base\Widget
             'class' => "pistol88-cart-buy-button pistol88-cart-buy-button{$this->model->getCartId()} {$this->cssClass}",
             'data-id' => $model->getCartId(),
             'data-count' => $this->count,
+            'data-price' => (int)$this->price,
             'data-options' => json_encode($this->options),
             'data-description' => $this->description,
             'data-model' => $model::className()

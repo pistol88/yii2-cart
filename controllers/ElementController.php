@@ -57,7 +57,11 @@ class ElementController extends \yii\web\Controller
                 $options = $postData['CartElement']['options'];
             }
 
-            $elementModel = $cart->put($productModel, $postData['CartElement']['count'], $options);
+            if($postData['CartElement']['price'] && $postData['CartElement']['price'] != 'false') {
+                $elementModel = $cart->putWithPrice($productModel, $postData['CartElement']['price'], $postData['CartElement']['count'], $options);
+            } else {
+                $elementModel = $cart->put($productModel, $postData['CartElement']['count'], $options);
+            }
 
             $json['elementId'] = $elementModel->getId();
             $json['result'] = 'success';
