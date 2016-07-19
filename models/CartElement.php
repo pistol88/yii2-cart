@@ -43,10 +43,11 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
             if ($productModel = $productModel::findOne($this->item_id)) {
                 $model = $productModel;
             } else {
-                //throw new \yii\base\Exception('Element model not found');
+                yii::$app->cart->truncate();
+                throw new \yii\base\Exception('Element model not found');
             }
         } else {
-            //throw new \yii\base\Exception('Unknow element model');
+            throw new \yii\base\Exception('Unknow element model');
         }
         
         return $model;
