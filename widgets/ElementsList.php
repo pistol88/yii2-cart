@@ -27,6 +27,7 @@ class ElementsList extends \yii\base\Widget
     public $otherFields = [];
     public $currencyPosition = null;
     public $showCountArrows = true;
+    public $columns = 4;
     
     public function init()
     {
@@ -34,6 +35,7 @@ class ElementsList extends \yii\base\Widget
                 'offerUrl' => $this->offerUrl,
                 'textButton' => $this->textButton,
                 'type' => $this->type,
+                'columns' => $this->columns,
                 'model' => $this->model,
                 'showTotal' => $this->showTotal,
                 'showOptions' => $this->showOptions,
@@ -149,14 +151,18 @@ class ElementsList extends \yii\base\Widget
                 $cartElName .= Html::tag('p', Html::tag('small', $fieldName.': '.$product->$field));
             }
         }
-        
-        $columns[] = Html::tag('div', $cartElName, ['class' => 'col-lg-5 col-xs-5']);
 
-        $columns[] = Html::tag('div', ChangeCount::widget(['model' => $item, 'showArrows' => $this->showCountArrows]), ['class' => 'col-lg-3 col-xs-3']);
-
-        $columns[] = Html::tag('div', $this->_getCostFormatted($item->getCost()), ['class' => 'col-lg-2 col-xs-2']);
+        if($this->columns == 4) {
+            $columns[] = Html::tag('div', $cartElName, ['class' => 'col-lg-6 col-md-6 col-xs-6']);
+            $columns[] = Html::tag('div', ChangeCount::widget(['model' => $item, 'showArrows' => $this->showCountArrows]), ['class' => 'col-lg-3 col-xs-3']);
+            $columns[] = Html::tag('div', $this->_getCostFormatted($item->getCost()), ['class' => 'col-lg-2 col-xs-2']);
+        } else {
+            $columns[] = Html::tag('div', $cartElName, ['class' => 'col-lg-8 col-md-8 col-xs-8']);
+            $columns[] = Html::tag('div', $this->_getCostFormatted($item->getCost()).ChangeCount::widget(['model' => $item, 'showArrows' => $this->showCountArrows]), ['class' => 'col-lg-3 col-md-3 col-xs-3']); 
+        }
         
-        $columns[] = Html::tag('div', DeleteButton::widget(['model' => $item, 'lineSelector' => 'pistol88-cart-row ', 'cssClass' => 'delete']), ['class' => 'shop-cart-delete col-lg-2 col-xs-2']);
+
+        $columns[] = Html::tag('div', DeleteButton::widget(['model' => $item, 'lineSelector' => 'pistol88-cart-row ', 'cssClass' => 'delete']), ['class' => 'shop-cart-delete col-lg-1 col-md-1 col-xs-1']);
 
         $return = html::tag('div', implode('', $columns), ['class' => ' row']);
         return Html::tag('li', $return, ['class' => 'pistol88-cart-row ']);
