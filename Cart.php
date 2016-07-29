@@ -2,7 +2,7 @@
 namespace pistol88\cart;
 
 use yii\base\Component;
-use yii\di\ServiceLocator;
+use yii\helpers\ArrayHelper;
 use pistol88\cart\events\Cart as CartEvent;
 use pistol88\cart\events\CartElement as CartElementEvent;
 use yii;
@@ -95,6 +95,12 @@ class Cart extends Component
     public function getElements()
     {
         return $this->cart->elements;
+    }
+    
+    public function getHash()
+    {
+        $elements = $this->elements;
+        return md5(implode('-', ArrayHelper::map($elements, 'id', 'id')).implode('-', ArrayHelper::map($elements, 'count', 'count')));
     }
 
     public function getCount()
