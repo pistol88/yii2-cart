@@ -22,6 +22,7 @@ class Cart extends \yii\db\ActiveRecord implements CartService
     public function put(\pistol88\cart\interfaces\ElementService $elementModel)
     {
         $elementModel->hash = self::_generateHash($elementModel->getModel(), $elementModel->getOptions());
+
         $elementModel->link('cart', $this->my());
 
         if ($elementModel->validate() && $elementModel->save()) {
@@ -104,6 +105,6 @@ class Cart extends \yii\db\ActiveRecord implements CartService
     
     private static function _generateHash(\pistol88\cart\interfaces\CartElement $model, $options = [])
     {  
-        return md5(get_class($model).serialize($options));
+        return md5(get_class($model).$model->getCartId().$model->getCartPrice().serialize($options));
     }
 }

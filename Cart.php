@@ -43,7 +43,7 @@ class Cart extends Component
     public function put(\pistol88\cart\interfaces\CartElement $model, $count = 1, $options = [])
     {
         if (!$elementModel = $this->cart->getElement($model, $options)) {
-            $elementModel = $this->element;
+            $elementModel = new $this->element;
             $elementModel->setCount((int)$count);
             $elementModel->setPrice($model->getCartPrice());
             $elementModel->setItemId($model->getCartId());
