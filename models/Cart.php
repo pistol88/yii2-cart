@@ -21,7 +21,7 @@ class Cart extends \yii\db\ActiveRecord implements CartService
     
     public function put(\pistol88\cart\interfaces\ElementService $elementModel)
     {
-        $elementModel->hash = self::_generateHash($elementModel->getModel(), $elementModel->getOptions());
+        $elementModel->hash = self::_generateHash($elementModel->model, $elementModel->price, $elementModel->getOptions());
 
         $elementModel->link('cart', $this->my());
 
@@ -31,7 +31,7 @@ class Cart extends \yii\db\ActiveRecord implements CartService
             throw new \Exception(current($elementModel->getFirstErrors()));
         }
     }
-
+    
     public function getElements()
     {
         return $this->hasMany($this->element, ['cart_id' => 'id']);
@@ -39,7 +39,7 @@ class Cart extends \yii\db\ActiveRecord implements CartService
     
     public function getElement(\pistol88\cart\interfaces\CartElement $model, $options = [])
     {
-        return $this->getElements()->where(['hash' => $this->_generateHash($model, $options), 'item_id' => $model->getCartId()])->one();
+        return $this->getElements()->where(['hash' => $this->_generateHash(get_class($model), $model->getCartPrice(), $options), 'item_id' => $model->getCartId()])->one();
     }
     
     public function getElementsByModel(\pistol88\cart\interfaces\CartElement $model)
@@ -103,8 +103,8 @@ class Cart extends \yii\db\ActiveRecord implements CartService
         return true;
     }
     
-    private static function _generateHash(\pistol88\cart\interfaces\CartElement $model, $options = [])
-    {  
-        return md5(get_class($model).$model->getCartId().$model->getCartPrice().serialize($options));
+    private static function _generateHash($modelName, $price, $options = [])
+    {
+        return md5($modelName.$price.serialize($options));
     }
 }
