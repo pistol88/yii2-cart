@@ -22,7 +22,7 @@ class ElementsList extends \yii\base\Widget
     public $showTotal = false;
     public $showOptions = true;
     public $showOffer = false;
-    public $showTruncate = true;
+    public $showTruncate = false;
     public $currency = null;
     public $otherFields = [];
     public $currencyPosition = null;
@@ -32,20 +32,20 @@ class ElementsList extends \yii\base\Widget
     public function init()
     {
         $paramsArr = [
-                'offerUrl' => $this->offerUrl,
-                'textButton' => $this->textButton,
-                'type' => $this->type,
-                'columns' => $this->columns,
-                'model' => $this->model,
-                'showTotal' => $this->showTotal,
-                'showOptions' => $this->showOptions,
-                'showOffer' => $this->showOffer,
-                'showTruncate' => $this->showTruncate,
-                'currency' => $this->currency,
-                'otherFields' => $this->otherFields,
-                'currencyPosition' => $this->currencyPosition,
-                'showCountArrows' => $this->showCountArrows
-            ];
+            'offerUrl' => $this->offerUrl,
+            'textButton' => $this->textButton,
+            'type' => $this->type,
+            'columns' => $this->columns,
+            'model' => $this->model,
+            'showTotal' => $this->showTotal,
+            'showOptions' => $this->showOptions,
+            'showOffer' => $this->showOffer,
+            'showTruncate' => $this->showTruncate,
+            'currency' => $this->currency,
+            'otherFields' => $this->otherFields,
+            'currencyPosition' => $this->currencyPosition,
+            'showCountArrows' => $this->showCountArrows
+        ];
         
         foreach($paramsArr as $key => $value) {
             if($value === 'false') {
@@ -99,6 +99,10 @@ class ElementsList extends \yii\base\Widget
         if (!empty($elements)) {
             $bottomPanel = '';
             
+            if ($this->showTotal) {
+                $bottomPanel .= Html::tag('div', Yii::t('cart', 'Total') . ': ' . yii::$app->cart->cost . ' '.yii::$app->cart->currency, ['class' => 'pistol88-cart-total-row']);
+            }
+            
             if($this->offerUrl && $this->showOffer) {
                 $bottomPanel .= Html::a(yii::t('cart', 'Offer'), $this->offerUrl, ['class' => 'pistol88-cart-offer-button btn btn-success']);
             }
@@ -110,11 +114,8 @@ class ElementsList extends \yii\base\Widget
             $cart .= Html::tag('div', $bottomPanel, ['class' => 'pistol88-cart-bottom-panel']);
         }
         
+
         $cart = Html::tag('div', $cart, ['class' => 'pistol88-cart']);
-        
-        if (empty($elements) && $this->showTotal) {
-            $cart .= Html::tag('div', Yii::t('cart', 'Total') . ': ' . CartInformer::widget(), ['class' => 'pistol88-cart-total-row']);
-        }
 
         if ($this->type == self::TYPE_DROPDOWN) {
             $button = Html::button($this->textButton.Html::tag('span', '', ["class" => "caret"]), ['class' => 'btn dropdown-toggle', 'id' => 'pistol88-cart-drop', 'type' => "button", 'data-toggle' => "dropdown", 'aria-haspopup' => 'true', 'aria-expanded' => "false"]);
