@@ -106,10 +106,12 @@ class ElementController extends \yii\web\Controller
             
             $json['elementsHTML'] = \pistol88\cart\widgets\ElementsList::widget($elementsListWidgetParams);
             $json['count'] = $cartModel->getCount();
+            $json['clear_price'] = $cartModel->getCount(false);
             $json['price'] = $cartModel->getCostFormatted();
         } else {
             $json['count'] = 0;
             $json['price'] = 0;
+            $json['clear_price'] = 0;
         }
         return Json::encode($json);
     }

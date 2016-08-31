@@ -114,13 +114,15 @@ class Cart extends Component
         return $count;
     }
     
-    public function getCost()
+    public function getCost($withTriggers = true)
     {
         $cost = $this->cart->getElements()->sum('price*count');
         
-        $cartEvent = new CartEvent(['cart' => $this->cart, 'cost' => $cost]);
-        $this->trigger(self::EVENT_CART_COST, $cartEvent);
-        $cost = $cartEvent->cost;
+        if($withTriggers) {
+            $cartEvent = new CartEvent(['cart' => $this->cart, 'cost' => $cost]);
+            $this->trigger(self::EVENT_CART_COST, $cartEvent);
+            $cost = $cartEvent->cost;
+        }
         
         $this->cost = $cost;
 

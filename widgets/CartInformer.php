@@ -11,7 +11,7 @@ class CartInformer extends \yii\base\Widget
     public $text = NULL;
     public $offerUrl = NULL;
     public $cssClass = NULL;
-    public $htmlTag = 'a';
+    public $htmlTag = 'span';
 
     public function init()
     {
@@ -33,10 +33,18 @@ class CartInformer extends \yii\base\Widget
     public function run()
     {
         $cart = yii::$app->cart;
-        $this->text = str_replace(['{c}', '{p}'],
-            ['<span class="pistol88-cart-count">'.$cart->getCount().'</span>', '<strong class="pistol88-cart-price">'.$cart->getCostFormatted().'</strong>'],
-            $this->text
-        );
+        
+        if($cart->cost == $cart->getCost(false)) {
+            $this->text = str_replace(['{c}', '{p}'],
+                ['<span class="pistol88-cart-count">'.$cart->getCount().'</span>', '<strong class="pistol88-cart-price">'.$cart->getCostFormatted().'</strong>'],
+                $this->text
+            );
+        } else {
+            $this->text = str_replace(['{c}', '{p}'],
+                ['<span class="pistol88-cart-count">'.$cart->getCount().'</span>', '<strong class="pistol88-cart-price"><s>'.round($cart->getCost(false)).'</s>'.$cart->getCostFormatted().'</strong>'],
+                $this->text
+            );
+        }
         
         return Html::tag($this->htmlTag, $this->text, [
                 'href' => $this->offerUrl,
