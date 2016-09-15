@@ -43,32 +43,34 @@ class ChangeOptions extends \yii\base\Widget
 
         if(!empty($optionsList)) {
             $i = 1;
-            foreach($optionsList as $option => $values) {
+            foreach($optionsList as $optionId => $optionData) {
                 if(!is_array($values)) {
                     $values = [];
                 }
+                
                 $cssClass = "{$changerCssClass} pistol88-cart-option{$id} ";
                 
-                $optionsArray = [];
-                foreach($values as $key => $value) {
-                    $optionsArray[$value] = $value;
+                $optionsArray = ['' => $optionData['name']];
+                foreach($optionData['variants'] as $variantId => $value) {
+                    $optionsArray[$variantId] = $value;
                 }
                 
                 if($this->type == 'select') {
-                    array_unshift($optionsArray, $option);
+
                     $list = Html::dropDownList('cart_options' . $id .'-' . $i,
                         $this->_defaultValue($option),
                         $optionsArray,
-                        ['data-href' => Url::toRoute(["/cart/element/update"]), 'data-name' => Html::encode($option), 'data-id' => $id, 'class' => "form-control $cssClass"]
+                        ['data-href' => Url::toRoute(["/cart/element/update"]), 'data-filter-id' => $optionId, 'data-name' => Html::encode($optionData['name']), 'data-id' => $id, 'class' => "form-control $cssClass"]
                     );
                 } else {
-                    $list = Html::tag('div', Html::tag('strong', $option), ['class' => 'pistol88-option-heading']);
+                    $list = Html::tag('div', Html::tag('strong', $optionData['name']), ['class' => 'pistol88-option-heading']);
                     $list .= Html::radioList('cart_options' . $id . '-' . $i,
                         $this->_defaultValue($option),
                         $optionsArray,
-                        ['itemOptions' => ['data-href' => Url::toRoute(["/cart/element/update"]), 'data-name' => $option, 'data-id' => $id, 'class' => $cssClass]]
+                        ['itemOptions' => ['data-href' => Url::toRoute(["/cart/element/update"]), 'data-filter-id' => $optionId, 'data-name' => Html::encode($optionData['name']), 'data-id' => $id, 'class' => $cssClass]]
                     );
                 }
+                
                 $options[] = Html::tag('div', $list, ['class' => "pistol88-option"]);
                 $i++;
             }
