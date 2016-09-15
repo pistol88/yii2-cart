@@ -102,7 +102,16 @@ class Product extends ActiveRecord implements \pistol88\cart\interfaces\CartElem
     //Опции продукта для выбора при добавлении в корзину
     public function getCartOptions()
     {
-        return ['Цвет' => ['Красный', 'Белый', 'Синий'], 'Размер' => ['XXL']];
+        return [
+            '1' => [
+                'name' => 'Цвет',
+                'variants' => ['1' => 'Красный', '2' => 'Белый', '3' => 'Синий'],
+            ],
+            '2' => [
+                'name' => 'Размер',
+                'variants' => ['4' => 'XL', '5' => 'XS', '6' => 'XXL'],
+            ]
+        ];
     }
     //..
 }
