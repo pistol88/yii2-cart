@@ -67,7 +67,7 @@ pistol88.cart = {
         $(buyButton).data('options', options);
         $(buyButton).attr('data-options', options);
 
-        $(document).trigger("changeBeforeCartElementOptions", this);
+        $(document).trigger("beforeChangeCartElementOptions", options);
 
         return true;
     },
