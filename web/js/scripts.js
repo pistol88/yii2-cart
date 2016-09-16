@@ -66,11 +66,13 @@ pistol88.cart = {
 
         $(buyButton).data('options', options);
         $(buyButton).attr('data-options', options);
-console.log(buyButton);
+
+        $(document).trigger("changeBeforeCartElementOptions", this);
+
         return true;
     },
     deleteElement: function() {
-        jQuery(document).trigger("deleteCartElement", this);
+        $(document).trigger("deleteCartElement", this);
 
         var link = this;
         var elementId = jQuery(this).data('id');
