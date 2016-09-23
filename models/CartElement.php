@@ -110,9 +110,18 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
         return '{{%cart_element}}';
     }
 
-    public function getCost()
+    public function getCost($withTriggers = true)
     {
-        return $this->price*$this->count;
+        $cost = $this->price*$this->count;
+
+        if($withTriggers) {
+            $cart = yii::$app->cart;
+            $elementEvent = new CartElementEvent(['element' => $this, 'cost' => $cost]);
+            $cart->trigger($cart::EVENT_ELEMENT_COST, $elementEvent);
+            $cost = $elementEvent->cost;
+        }
+        
+        return $cost;
     }
     
     public function getCart()

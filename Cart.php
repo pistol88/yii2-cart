@@ -15,6 +15,8 @@ class Cart extends Component
     const EVENT_CART_COUNT = 'cart_count';
     const EVENT_CART_PUT = 'cart_put';
     
+    const EVENT_ELEMENT_COST = 'element_cost';
+    
     private $cost = 0;
     private $element = null;
     private $cart = null;
@@ -116,7 +118,14 @@ class Cart extends Component
     
     public function getCost($withTriggers = true)
     {
-        $cost = $this->cart->getElements()->sum('price*count');
+        $elements = $this->cart->elements;
+        
+        $cost = 0;
+        
+        foreach($elements as $element) {
+            $price = $element->getCost($withTriggers);
+            $cost += $price;
+        }
         
         if($withTriggers) {
             $cartEvent = new CartEvent(['cart' => $this->cart, 'cost' => $cost]);
