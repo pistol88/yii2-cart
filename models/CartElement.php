@@ -20,11 +20,6 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
     {
         return $this->count;
     }
-
-    public function getPrice()
-    {
-        return $this->price;
-    }
     
     public function getItemId()
     {
@@ -82,6 +77,20 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
         return $this->save();
     }
 
+    public function getPrice($withTriggers = true)
+    {
+        $price = $this->price;
+
+        if($withTriggers) {
+            $cart = yii::$app->cart;
+            $elementEvent = new CartElementEvent(['element' => $this, 'cost' => $price]);
+            $cart->trigger($cart::EVENT_ELEMENT_COST, $elementEvent);
+            $price = $elementEvent->cost;
+        }
+        
+        return $price;
+    }
+	
     public function setPrice($price)
     {
         $this->price = $price;
@@ -112,14 +121,7 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
 
     public function getCost($withTriggers = true)
     {
-        $cost = $this->price*$this->count;
-
-        if($withTriggers) {
-            $cart = yii::$app->cart;
-            $elementEvent = new CartElementEvent(['element' => $this, 'cost' => $cost]);
-            $cart->trigger($cart::EVENT_ELEMENT_COST, $elementEvent);
-            $cost = $elementEvent->cost;
-        }
+        $cost = $this->getPrice($withTriggers)*$this->count;
         
         return $cost;
     }
