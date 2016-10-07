@@ -204,9 +204,14 @@ use pistol88\cart\widgets\ChangeOptions;
 
 ```
 
+События
+==========
+
 Все события корзины:
 
- * EVENT_CART_COST - изменение цены
+ * EVENT_CART_COST - изменение общей цены
  * EVENT_CART_COUNT - изменение количества
  * EVENT_CART_TRUNCATE - очищение корзины
  * EVENT_CART_PUT - добавление элемента
+ * EVENT_ELEMENT_COST  - изменение цены элемента
+ * EVENT_ELEMENT_ROUNDING - округление цены элемента

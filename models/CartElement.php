@@ -81,13 +81,18 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
     {
         $price = $this->price;
 
+		$cart = yii::$app->cart;
+		
         if($withTriggers) {
-            $cart = yii::$app->cart;
             $elementEvent = new CartElementEvent(['element' => $this, 'cost' => $price]);
             $cart->trigger($cart::EVENT_ELEMENT_COST, $elementEvent);
             $price = $elementEvent->cost;
         }
-        
+
+		$elementEvent = new CartElementEvent(['element' => $this, 'cost' => $price]);
+		$cart->trigger($cart::EVENT_ELEMENT_ROUNDING, $elementEvent);
+		$price = $elementEvent->cost;
+
         return $price;
     }
 	
