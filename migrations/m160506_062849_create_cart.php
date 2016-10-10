@@ -26,7 +26,7 @@ class m160506_062849_create_cart extends Migration
             '{{%cart_element}}',
             [
                 'id' => Schema::TYPE_PK,
-                'parent_id' => Schema::TYPE_INTEGER . '(55) NOT NULL',
+                'parent_id' => Schema::TYPE_INTEGER . '(55)',
                 'model' => Schema::TYPE_STRING . '(110) NOT NULL',
                 'cart_id' => Schema::TYPE_INTEGER . '(11) NOT NULL',
                 'item_id' => Schema::TYPE_INTEGER . '(55) NOT NULL',
