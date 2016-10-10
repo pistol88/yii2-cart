@@ -16,7 +16,7 @@ class Cart extends Component
     const EVENT_CART_PUT = 'cart_put';
     
     const EVENT_ELEMENT_COST = 'element_cost';
-	const EVENT_ELEMENT_ROUNDING = 'element_rounding';
+    const EVENT_ELEMENT_ROUNDING = 'element_rounding';
     
     private $cost = 0;
     private $element = null;
@@ -66,7 +66,7 @@ class Cart extends Component
         } else {
             $elementModel->countIncrement($count);
         }
-		
+        
         return $elementModel;
     }
 
@@ -93,7 +93,7 @@ class Cart extends Component
         } else {
             $elementModel->countIncrement($count);
         }
-		
+        
         return $elementModel;
     }
     
@@ -105,7 +105,7 @@ class Cart extends Component
     public function getHash()
     {
         $elements = $this->elements;
-		
+        
         return md5(implode('-', ArrayHelper::map($elements, 'id', 'id')).implode('-', ArrayHelper::map($elements, 'count', 'count')));
     }
 
