@@ -132,7 +132,7 @@ class Cart extends Component
             $cost += $price;
         }
         
-        $cartEvent = new CartEvent(['cart' => $this->cart, 'cost' => $price]);
+        $cartEvent = new CartEvent(['cart' => $this->cart, 'cost' => $cost]);
         
         if($withTriggers) {
             $this->trigger(self::EVENT_CART_COST, $cartEvent);
