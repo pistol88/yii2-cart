@@ -14,6 +14,7 @@ class Cart extends Component
     const EVENT_CART_COST = 'cart_cost';
     const EVENT_CART_COUNT = 'cart_count';
     const EVENT_CART_PUT = 'cart_put';
+    const EVENT_CART_ROUNDING = 'cart_rounding';
     
     const EVENT_ELEMENT_COST = 'element_cost';
     const EVENT_ELEMENT_ROUNDING = 'element_rounding';
@@ -131,11 +132,15 @@ class Cart extends Component
             $cost += $price;
         }
         
+        $cartEvent = new CartEvent(['cart' => $this->cart, 'cost' => $price]);
+        
         if($withTriggers) {
-            $cartEvent = new CartEvent(['cart' => $this->cart, 'cost' => $cost]);
             $this->trigger(self::EVENT_CART_COST, $cartEvent);
-            $cost = $cartEvent->cost;
         }
+
+		$this->trigger(self::EVENT_CART_ROUNDING, $cartEvent);
+        
+		$cost = $cartEvent->cost;
         
         $this->cost = $cost;
 
