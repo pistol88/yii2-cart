@@ -162,8 +162,16 @@ pistol88.cart = {
         data.elementsListWidgetParams = pistol88.cart.elementsListWidgetParams;
         data[pistol88.cart.csrf_param] = pistol88.cart.csrf;
 
+        jQuery('.pistol88-cart-block').css({'opacity': '0.3'});
+        jQuery('.pistol88-cart-count').css({'opacity': '0.3'});
+        jQuery('.pistol88-cart-price').css({'opacity': '0.3'});
+        
         jQuery.post(link, data,
             function(json) {
+                jQuery('.pistol88-cart-block').css({'opacity': '1'});
+                jQuery('.pistol88-cart-count').css({'opacity': '1'});
+                jQuery('.pistol88-cart-price').css({'opacity': '1'});
+                
                 if(json.result == 'fail') {
                     console.log(json.error);
                 }
