@@ -180,7 +180,7 @@ class ElementsList extends \yii\base\Widget
         if ($this->currencyPosition == 'after') {
             return "$cost{$this->currency}";
         } else {
-            return "{$$this->currency}$cost";
+            return "{$this->currency}$cost";
         }
     }
 }
