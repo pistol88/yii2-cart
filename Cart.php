@@ -5,6 +5,7 @@ use yii\base\Component;
 use yii\helpers\ArrayHelper;
 use pistol88\cart\events\Cart as CartEvent;
 use pistol88\cart\events\CartElement as CartElementEvent;
+use pistol88\cart\events\CartGroupModels;
 use yii;
 
 class Cart extends Component
@@ -15,7 +16,7 @@ class Cart extends Component
     const EVENT_CART_COUNT = 'cart_count';
     const EVENT_CART_PUT = 'cart_put';
     const EVENT_CART_ROUNDING = 'cart_rounding';
-    
+    const EVENT_MODELS_ROUNDING = 'cart_models_rounding';
     const EVENT_ELEMENT_COST = 'element_cost';
     const EVENT_ELEMENT_ROUNDING = 'element_rounding';
     
@@ -125,20 +126,29 @@ class Cart extends Component
     {
         $elements = $this->cart->elements;
         
-        $cost = 0;
+        
+        
+        $pricesByModels = [];
         
         foreach($elements as $element) {
             $price = $element->getCost($withTriggers);
-            $cost += $price;
+            $pricesByModels[$element->model] += $price;
+        }
+        
+        $cost = 0;
+        
+        foreach($pricesByModels as $model => $price) {
+            $cartGroupModels = new CartGroupModels(['cart' => $this->cart, 'cost' => $price, 'model' => $model]);
+            $this->trigger(self::EVENT_MODELS_ROUNDING, $cartGroupModels);
+            $cost += $cartGroupModels->cost;
         }
         
         $cartEvent = new CartEvent(['cart' => $this->cart, 'cost' => $cost]);
         
         if($withTriggers) {
             $this->trigger(self::EVENT_CART_COST, $cartEvent);
+            $this->trigger(self::EVENT_CART_ROUNDING, $cartEvent);
         }
-
-		$this->trigger(self::EVENT_CART_ROUNDING, $cartEvent);
         
 		$cost = $cartEvent->cost;
         
