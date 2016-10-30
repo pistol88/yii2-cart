@@ -125,9 +125,7 @@ class Cart extends Component
     public function getCost($withTriggers = true)
     {
         $elements = $this->cart->elements;
-        
-        
-        
+
         $pricesByModels = [];
         
         foreach($elements as $element) {
@@ -150,7 +148,7 @@ class Cart extends Component
             $this->trigger(self::EVENT_CART_ROUNDING, $cartEvent);
         }
         
-		$cost = $cartEvent->cost;
+        $cost = $cartEvent->cost;
         
         $this->cost = $cost;
 
