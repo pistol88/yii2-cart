@@ -130,6 +130,11 @@ class Cart extends Component
         
         foreach($elements as $element) {
             $price = $element->getCost($withTriggers);
+
+            if (!isset($pricesByModels[$element->model])) {
+                $pricesByModels[$element->model] = 0;
+            }
+
             $pricesByModels[$element->model] += $price;
         }
         
