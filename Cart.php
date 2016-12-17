@@ -18,6 +18,7 @@ class Cart extends Component
     const EVENT_CART_ROUNDING = 'cart_rounding';
     const EVENT_MODELS_ROUNDING = 'cart_models_rounding';
     const EVENT_ELEMENT_COST = 'element_cost';
+    const EVENT_ELEMENT_PRICE = 'element_price';
     const EVENT_ELEMENT_ROUNDING = 'element_rounding';
     
     private $cost = 0;
