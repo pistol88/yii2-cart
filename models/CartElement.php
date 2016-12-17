@@ -85,7 +85,7 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
 		
         if($withTriggers) {
             $elementEvent = new CartElementEvent(['element' => $this, 'cost' => $price]);
-            $cart->trigger($cart::EVENT_ELEMENT_COST, $elementEvent);
+            $cart->trigger($cart::EVENT_ELEMENT_PRICE, $elementEvent);
             $price = $elementEvent->cost;
         }
 
@@ -127,6 +127,12 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
     public function getCost($withTriggers = true)
     {
         $cost = $this->getPrice($withTriggers)*$this->count;
+        $cart = \Yii::$app->cart;
+        if($withTriggers) {
+            $elementEvent = new CartElementEvent(['element' => $this, 'cost' => $cost]);
+            $cart->trigger($cart::EVENT_ELEMENT_COST, $elementEvent);
+            $cost = $elementEvent->cost;
+        }
         
         return $cost;
     }
