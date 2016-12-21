@@ -41,7 +41,7 @@ php yii migrate --migrationPath=vendor/pistol88/yii2-cart/migrations
             'class' => 'pistol88\cart\Cart',
             'currency' => 'р.', //Валюта
             'currencyPosition' => 'after', //after или before (позиция значка валюты относительно цены)
-            'priceFormat' => [0,'.', ''], //Форма цены
+            'priceFormat' => [2,'.', ''], //Форма цены
         ],
         //...
     ]
