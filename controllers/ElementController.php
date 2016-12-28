@@ -19,17 +19,17 @@ class ElementController extends \yii\web\Controller
             ],
         ];
     }
-    
+
     public function actionDelete()
     {
         $json = ['result' => 'undefind', 'error' => false];
         $elementId = yii::$app->request->post('elementId');
 
         $cart = yii::$app->cart;
-        
+
         $elementModel = $cart->getElementById($elementId);
-        
-        if($elementModel->delete()) {
+
+        if($cart->deleteElement($elementModel)) {
             $json['result'] = 'success';
         }
         else {
@@ -38,7 +38,7 @@ class ElementController extends \yii\web\Controller
 
         return $this->_cartJson($json);
     }
-	
+
     public function actionCreate()
     {
         $json = ['result' => 'undefind', 'error' => false];
@@ -103,7 +103,7 @@ class ElementController extends \yii\web\Controller
             if(!$elementsListWidgetParams = yii::$app->request->post('elementsListWidgetParams')) {
                 $elementsListWidgetParams = [];
             }
-            
+
             $json['elementsHTML'] = \pistol88\cart\widgets\ElementsList::widget($elementsListWidgetParams);
             $json['count'] = $cartModel->getCount();
             $json['clear_price'] = $cartModel->getCount(false);

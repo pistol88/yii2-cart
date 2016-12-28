@@ -15,6 +15,7 @@ class Cart extends Component
     const EVENT_CART_COST = 'cart_cost';
     const EVENT_CART_COUNT = 'cart_count';
     const EVENT_CART_PUT = 'cart_put';
+    const EVENT_CART_UPDATE = 'cart_update';
     const EVENT_CART_ROUNDING = 'cart_rounding';
     const EVENT_MODELS_ROUNDING = 'cart_models_rounding';
     const EVENT_ELEMENT_COST = 'element_cost';
@@ -29,7 +30,8 @@ class Cart extends Component
     public $elementBehaviors = [];
     public $currencyPosition = 'after';
     public $priceFormat = [2, '.', ''];
-    
+    public $customeElementListView = null;
+
     public function __construct(interfaces\CartService $cartService, interfaces\ElementService $elementService, $config = [])
     {
         $this->cart = $cartService;
@@ -69,7 +71,17 @@ class Cart extends Component
         } else {
             $elementModel->countIncrement($count);
         }
-        
+
+
+        // TODO DRY
+        $this->update();
+        $elementEvent = new CartEvent([
+            'cart' => $this->getElements(),
+            'cost' => $this->getCost(),
+            'count' => $this->getCount(),
+        ]);
+        $this->trigger(self::EVENT_CART_UPDATE, $elementEvent);
+
         return $elementModel;
     }
 
@@ -96,7 +108,17 @@ class Cart extends Component
         } else {
             $elementModel->countIncrement($count);
         }
-        
+
+        // TODO DRY
+        $this->update();
+        $elementEvent = new CartEvent([
+            'cart' => $this->getElements(),
+            'cost' => $this->getCost(),
+            'count' => $this->getCount(),
+        ]);
+        $this->trigger(self::EVENT_CART_UPDATE, $elementEvent);
+
+
         return $elementModel;
     }
     
@@ -195,7 +217,26 @@ class Cart extends Component
         
         return $truncate;
     }
-    
+
+    public function deleteElement($element)
+    {
+        if ($element->delete()) {
+
+            // TODO DRY
+            $this->update();
+            $elementEvent = new CartEvent([
+                'cart' => $this->getElements(),
+                'cost' => $this->getCost(),
+                'count' => $this->getCount(),
+            ]);
+            $this->trigger(self::EVENT_CART_UPDATE, $elementEvent);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private function update()
     {
         $this->cart = $this->cart->my();
