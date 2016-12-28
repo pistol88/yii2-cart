@@ -80,10 +80,6 @@ class ElementsList extends \yii\base\Widget
             $this->currencyPosition = yii::$app->cart->currencyPosition;
         }
 
-        if (yii::$app->cart->customeElementListView) {
-            $this->elementView = yii::$app->cart->customeElementListView;
-        }
-
         \pistol88\cart\assets\WidgetAsset::register($this->getView());
 
         return parent::init();

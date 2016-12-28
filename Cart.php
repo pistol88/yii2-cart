@@ -21,7 +21,7 @@ class Cart extends Component
     const EVENT_ELEMENT_COST = 'element_cost';
     const EVENT_ELEMENT_PRICE = 'element_price';
     const EVENT_ELEMENT_ROUNDING = 'element_rounding';
-    
+
     private $cost = 0;
     private $element = null;
     private $cart = null;
@@ -30,21 +30,20 @@ class Cart extends Component
     public $elementBehaviors = [];
     public $currencyPosition = 'after';
     public $priceFormat = [2, '.', ''];
-    public $customeElementListView = null;
 
     public function __construct(interfaces\CartService $cartService, interfaces\ElementService $elementService, $config = [])
     {
         $this->cart = $cartService;
         $this->element = $elementService;
-        
+
         parent::__construct($config);
     }
-    
+
     public function init()
     {
         $this->trigger(self::EVENT_CART_INIT, new CartEvent(['cart' => $this->cart]));
         $this->update();
-        
+
         return $this;
     }
 
@@ -60,7 +59,7 @@ class Cart extends Component
 
             $elementEvent = new CartElementEvent(['element' => $elementModel]);
             $this->trigger(self::EVENT_CART_PUT, $elementEvent);
-            
+
             if(!$elementEvent->stop) {
                 try {
                     $this->cart->put($elementModel);
@@ -97,7 +96,7 @@ class Cart extends Component
 
             $elementEvent = new CartElementEvent(['element' => $elementModel]);
             $this->trigger(self::EVENT_CART_PUT, $elementEvent);
-            
+
             if(!$elementEvent->stop) {
                 try {
                     $this->cart->put($elementModel);
@@ -121,16 +120,16 @@ class Cart extends Component
 
         return $elementModel;
     }
-    
+
     public function getElements()
     {
         return $this->cart->elements;
     }
-    
+
     public function getHash()
     {
         $elements = $this->elements;
-        
+
         return md5(implode('-', ArrayHelper::map($elements, 'id', 'id')).implode('-', ArrayHelper::map($elements, 'count', 'count')));
     }
 
@@ -144,13 +143,13 @@ class Cart extends Component
 
         return $count;
     }
-    
+
     public function getCost($withTriggers = true)
     {
         $elements = $this->cart->elements;
 
         $pricesByModels = [];
-        
+
         foreach($elements as $element) {
             $price = $element->getCost($withTriggers);
 
@@ -160,29 +159,29 @@ class Cart extends Component
 
             $pricesByModels[$element->model] += $price;
         }
-        
+
         $cost = 0;
-        
+
         foreach($pricesByModels as $model => $price) {
             $cartGroupModels = new CartGroupModels(['cart' => $this->cart, 'cost' => $price, 'model' => $model]);
             $this->trigger(self::EVENT_MODELS_ROUNDING, $cartGroupModels);
             $cost += $cartGroupModels->cost;
         }
-        
+
         $cartEvent = new CartEvent(['cart' => $this->cart, 'cost' => $cost]);
-        
+
         if($withTriggers) {
             $this->trigger(self::EVENT_CART_COST, $cartEvent);
             $this->trigger(self::EVENT_CART_ROUNDING, $cartEvent);
         }
-        
+
         $cost = $cartEvent->cost;
-        
+
         $this->cost = $cost;
 
         return $this->cost;
     }
-    
+
     public function getCostFormatted()
     {
         $price = number_format($this->getCost(), $this->priceFormat[0], $this->priceFormat[1], $this->priceFormat[2]);
@@ -193,7 +192,7 @@ class Cart extends Component
             return "<span>{$this->currency}</span>$price";
         }
     }
-    
+
     public function getElementsByModel(\pistol88\cart\interfaces\CartElement $model)
     {
         return $this->cart->getElementByModel($model);
@@ -203,18 +202,18 @@ class Cart extends Component
     {
         return $this->cart->getElementById($id);
     }
-    
+
     public function getCart()
     {
         return $this->cart;
     }
-    
+
     public function truncate()
     {
         $this->trigger(self::EVENT_CART_TRUNCATE, new CartEvent(['cart' => $this->cart]));
         $truncate = $this->cart->truncate();
         $this->update();
-        
+
         return $truncate;
     }
 
@@ -241,7 +240,7 @@ class Cart extends Component
     {
         $this->cart = $this->cart->my();
         $this->cost = $this->cart->getCost();
-        
+
         return true;
     }
 }
