@@ -84,6 +84,7 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
     public function countIncrement($count)
     {
         $this->count = $this->count+$count;
+
         return $this->save();
     }
 
@@ -91,7 +92,7 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
     {
         $price = $this->price;
 
-		$cart = yii::$app->cart;
+        $cart = yii::$app->cart;
 
         if($withTriggers) {
             $elementEvent = new CartElementEvent(['element' => $this, 'cost' => $price]);
@@ -99,9 +100,9 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
             $price = $elementEvent->cost;
         }
 
-		$elementEvent = new CartElementEvent(['element' => $this, 'cost' => $price]);
-		$cart->trigger($cart::EVENT_ELEMENT_ROUNDING, $elementEvent);
-		$price = $elementEvent->cost;
+        $elementEvent = new CartElementEvent(['element' => $this, 'cost' => $price]);
+        $cart->trigger($cart::EVENT_ELEMENT_ROUNDING, $elementEvent);
+        $price = $elementEvent->cost;
 
         return $price;
     }
@@ -143,6 +144,7 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
             $cart->trigger($cart::EVENT_ELEMENT_COST, $elementEvent);
             $cost = $elementEvent->cost;
         }
+	    
         return $cost;
     }
 
