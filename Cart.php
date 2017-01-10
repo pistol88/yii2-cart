@@ -21,6 +21,7 @@ class Cart extends Component
     const EVENT_ELEMENT_COST = 'element_cost';
     const EVENT_ELEMENT_PRICE = 'element_price';
     const EVENT_ELEMENT_ROUNDING = 'element_rounding';
+    const EVENT_ELEMENT_COST_CALCULATE = 'element_cost_calculate';
 
     private $cost = 0;
     private $element = null;
