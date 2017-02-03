@@ -45,7 +45,8 @@ class ElementsList extends \yii\base\Widget
             'currency' => $this->currency,
             'otherFields' => $this->otherFields,
             'currencyPosition' => $this->currencyPosition,
-            'showCountArrows' => $this->showCountArrows
+            'showCountArrows' => $this->showCountArrows,
+            'elementView' => $this->elementView,
         ];
 
         foreach($paramsArr as $key => $value) {
