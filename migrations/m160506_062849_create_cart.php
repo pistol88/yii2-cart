@@ -49,7 +49,7 @@ class m160506_062849_create_cart extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%cart}}');
         $this->dropTable('{{%cart_element}}');
+        $this->dropTable('{{%cart}}');
     }
 }
