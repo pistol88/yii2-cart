@@ -143,6 +143,7 @@ class ElementsList extends \yii\base\Widget
         $cartElName = $product->getCartName();
 
         return $this->render($this->elementView, [
+            'allOptions' => $allOptions,
             'model' => $item,
             'name' => $cartElName,
             'showCountArrows' => $this->showCountArrows,
