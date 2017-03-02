@@ -22,7 +22,7 @@ class ElementController extends \yii\web\Controller
 
     public function actionDelete()
     {
-        $json = ['result' => 'undefind', 'error' => false];
+        $json = ['result' => 'undefined', 'error' => false];
         $elementId = yii::$app->request->post('elementId');
 
         $cart = yii::$app->cart;
@@ -41,7 +41,7 @@ class ElementController extends \yii\web\Controller
 
     public function actionCreate()
     {
-        $json = ['result' => 'undefind', 'error' => false];
+        $json = ['result' => 'undefined', 'error' => false];
 
         $cart = yii::$app->cart;
 
@@ -75,7 +75,7 @@ class ElementController extends \yii\web\Controller
 
     public function actionUpdate()
     {
-        $json = ['result' => 'undefind', 'error' => false];
+        $json = ['result' => 'undefined', 'error' => false];
 
         $cart = yii::$app->cart;
         

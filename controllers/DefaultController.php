@@ -31,7 +31,7 @@ class DefaultController extends \yii\web\Controller
 
     public function actionTruncate()
     {
-        $json = ['result' => 'undefind', 'error' => false];
+        $json = ['result' => 'undefined', 'error' => false];
 
         $cartModel = yii::$app->cart;
         
