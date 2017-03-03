@@ -24,7 +24,7 @@ use pistol88\cart\widgets\DeleteButton;
 
             <?php if(!empty($otherFields)) {
                 foreach($otherFields as $fieldName => $field) {
-                    echo Html::tag('p', Html::tag('small', $fieldName.': '.$product->$field));
+                    if(isset($product->$field)) echo Html::tag('p', Html::tag('small', $fieldName.': '.$product->$field));
                 }
             } ?>
         </div>
