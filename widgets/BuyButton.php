@@ -15,6 +15,7 @@ class BuyButton extends \yii\base\Widget
     public $cssClass = NULL;
     public $htmlTag = 'a';
     public $options = null;
+    public $addElementUrl = '/cart/element/create';
 
     public function init()
     {
@@ -45,9 +46,11 @@ class BuyButton extends \yii\base\Widget
 
         $model = $this->model;
         return Html::tag($this->htmlTag, $this->text, [
-            'href' => Url::toRoute('/cart/element/create'),
+            'href' => Url::toRoute($this->addElementUrl),
             'class' => "pistol88-cart-buy-button pistol88-cart-buy-button{$this->model->getCartId()} {$this->cssClass}",
             'data-id' => $model->getCartId(),
+            'data-url' => Url::toRoute($this->addElementUrl),
+            'data-role' => 'cart-buy-button',
             'data-count' => $this->count,
             'data-price' => (int)$this->price,
             'data-options' => json_encode($this->options),

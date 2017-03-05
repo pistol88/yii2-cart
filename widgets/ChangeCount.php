@@ -36,6 +36,7 @@ class ChangeCount extends \yii\base\Widget
             $input = Html::activeTextInput($this->model, 'count', [
                 'type' => 'number',
                 'class' => 'pistol88-cart-element-count',
+                'data-role' => 'cart-element-count',
                 'data-line-selector' => $this->lineSelector,
                 'data-id' => $this->model->getId(),
                 'data-href' => Url::toRoute("/cart/element/update"),

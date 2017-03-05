@@ -37,12 +37,12 @@ class CartInformer extends \yii\base\Widget
         
         if($this->showOldPrice == false | $cart->cost == $cart->getCost(false)) {
             $this->text = str_replace(['{c}', '{p}'],
-                ['<span class="pistol88-cart-count">'.$cart->getCount().'</span>', '<strong class="pistol88-cart-price">'.$cart->getCostFormatted().'</strong>'],
+                ['<span class="pistol88-cart-count">'.$cart->getCount().'</span>', '<strong class="pistol88-cart-price">'.$cart->getCostFormatted().'</strong>','<span class="pistol88-cart-score">Баллами: 0</span>','<span>К оплате:'.$cart->getCount().'</span>', '<strong>(цена товаров - баллы)</strong>'],
                 $this->text
             );
         } else {
             $this->text = str_replace(['{c}', '{p}'],
-                ['<span class="pistol88-cart-count">'.$cart->getCount().'</span>', '<strong class="pistol88-cart-price"><s>'.round($cart->getCost(false)).'</s>'.$cart->getCostFormatted().'</strong>'],
+                ['<span class="pistol88-cart-count">'.$cart->getCount().'</span>', '<strong class="pistol88-cart-price"><s>'.round($cart->getCost(false)).'</s>'.$cart->getCostFormatted().'</strong>','<span class="pistol88-cart-score">Баллами: 0</span>','<span>К оплате:'.$cart->getCount().'</span>', '<strong>(цена товаров - баллы)</strong>'],
                 $this->text
             );
         }
