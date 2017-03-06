@@ -33,15 +33,14 @@ pistol88.cart = {
         $(document).on('click', $buyElementButton, function () {
 
             var self = this,
-                url = $(self).data('url');
+                url = $(self).data('url'),
+                itemModelName = $(self).data('model'),
+                itemId = $(self).data('id'),
+                itemCount = $(self).data('count'),
+                itemPrice = $(self).data('price'),
+                itemOptions = $(self).data('options');
 
-            $itemModelName = $(self).data('model');
-            $itemId = $(self).data('id');
-            $itemCount = $(self).data('count');
-            $itemPrice = $(self).data('price');
-            $itemOptions = $(self).data('options');
-
-            pistol88.cart.addElement($itemModelName, $itemId, $itemCount, $itemPrice, $itemOptions, url);
+            pistol88.cart.addElement(itemModelName, itemId, itemCount, itemPrice, itemOptions, url);
 
         });
 
