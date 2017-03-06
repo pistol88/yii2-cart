@@ -6,7 +6,7 @@ use pistol88\cart\Cart;
 
 class Discount extends Behavior
 {
-    public $persent = 0;
+    public $percent = 0;
 
     public function events()
     {
@@ -17,8 +17,8 @@ class Discount extends Behavior
 
     public function doDiscount($event)
     {
-        if($this->persent > 0 && $this->persent <= 100 && $event->cost > 0) {
-            $event->cost = $event->cost-($event->cost*$this->persent)/100;
+        if($this->percent > 0 && $this->percent <= 100 && $event->cost > 0) {
+            $event->cost = $event->cost-($event->cost*$this->percent)/100;
         }
 
         return $this;
