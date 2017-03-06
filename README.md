@@ -184,7 +184,7 @@ use pistol88\cart\widgets\ChangeOptions;
             //...
             'as discount' => [
                 'class' => 'pistol88\cart\behaviors\Discount',
-                'persent' => 50,
+                'percent' => 50,
             ],
         ],
 ```
