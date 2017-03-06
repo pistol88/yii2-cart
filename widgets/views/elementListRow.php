@@ -22,9 +22,9 @@ use pistol88\cart\widgets\DeleteButton;
                 echo Html::tag('div', $productOptions, ['class' => 'pistol88-cart-show-options']);
             } ?>
 
-            <?php if (!empty($otherFields)) {
-                foreach ($otherFields as $fieldName => $field) {
-                    echo Html::tag('p', Html::tag('small', $fieldName . ': ' . $product->$field));
+            <?php if(!empty($otherFields)) {
+                foreach($otherFields as $fieldName => $field) {
+                    if(isset($product->$field)) echo Html::tag('p', Html::tag('small', $fieldName.': '.$product->$field));
                 }
             } ?>
         </div>
