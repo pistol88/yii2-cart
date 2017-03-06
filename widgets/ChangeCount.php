@@ -13,6 +13,7 @@ class ChangeCount extends \yii\base\Widget
     public $cssClass = 'pistol88-change-count';
     public $defaultValue = 1;
     public $showArrows = true;
+    public $actionUpdateUrl = '/cart/element/update';
 
     public function init()
     {
@@ -36,9 +37,10 @@ class ChangeCount extends \yii\base\Widget
             $input = Html::activeTextInput($this->model, 'count', [
                 'type' => 'number',
                 'class' => 'pistol88-cart-element-count',
+                'data-role' => 'cart-element-count',
                 'data-line-selector' => $this->lineSelector,
                 'data-id' => $this->model->getId(),
-                'data-href' => Url::toRoute("/cart/element/update"),
+                'data-href' => Url::toRoute($this->actionUpdateUrl),
             ]);
         } else {
             $input = Html::input('number', 'count', $this->defaultValue, [

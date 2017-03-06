@@ -1,7 +1,8 @@
 <?php
-namespace pistol88\cart\widgets; 
+namespace pistol88\cart\widgets;
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 class DeleteButton extends \yii\base\Widget
 {
@@ -9,6 +10,7 @@ class DeleteButton extends \yii\base\Widget
     public $model = NULL;
     public $cssClass = 'btn btn-danger';
     public $lineSelector = 'li';  //Селектор материнского элемента, где выводится элемент
+    public $deleteElementUrl = '/cart/element/delete';
 
     public function init()
     {
@@ -19,12 +21,19 @@ class DeleteButton extends \yii\base\Widget
         if ($this->text == NULL) {
             $this->text = '╳';
         }
-        
+
         return true;
     }
 
     public function run()
     {
-        return Html::a(Html::encode($this->text), ['/cart/element/delete'], ['data-line-selector' => $this->lineSelector, 'class' => 'pistol88-cart-delete-button '.$this->cssClass, 'data-id' => $this->model->getId()]);
+        return Html::a(Html::encode($this->text), [$this->deleteElementUrl],
+            [
+                'data-url' => Url::toRoute($this->deleteElementUrl),
+                'data-role' => 'cart-delete-button',
+                'data-line-selector' => $this->lineSelector,
+                'class' => 'pistol88-cart-delete-button ' . $this->cssClass,
+                'data-id' => $this->model->getId()
+            ]);
     }
 }

@@ -29,6 +29,7 @@ class ElementsList extends \yii\base\Widget
     public $showCountArrows = true;
     public $columns = 4;
     public $elementView = 'elementListRow';
+    public $controllerActions = ['update' => '/cart/element/update','delete' => '/cart/element/delete'];
 
     public function init()
     {
@@ -47,6 +48,7 @@ class ElementsList extends \yii\base\Widget
             'currencyPosition' => $this->currencyPosition,
             'showCountArrows' => $this->showCountArrows,
             'elementView' => $this->elementView,
+            'controllerActions' => $this->controllerActions,
         ];
 
         foreach($paramsArr as $key => $value) {
@@ -150,6 +152,7 @@ class ElementsList extends \yii\base\Widget
             'cost' => $this->_getCostFormatted($item->getCost(false)),
             'options' => $options,
             'otherFields' => $this->otherFields,
+            'controllerActions' => $this->controllerActions,
         ]);
 
         // TODO выпилить

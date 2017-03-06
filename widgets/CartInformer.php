@@ -34,7 +34,7 @@ class CartInformer extends \yii\base\Widget
     public function run()
     {
         $cart = yii::$app->cart;
-        
+
         if($this->showOldPrice == false | $cart->cost == $cart->getCost(false)) {
             $this->text = str_replace(['{c}', '{p}'],
                 ['<span class="pistol88-cart-count">'.$cart->getCount().'</span>', '<strong class="pistol88-cart-price">'.$cart->getCostFormatted().'</strong>'],
