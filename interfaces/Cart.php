@@ -1,11 +1,11 @@
 <?php
 namespace pistol88\cart\interfaces;
 
-interface CartService
+interface Cart
 {
     public function my();
     
-    public function put(ElementService $model);
+    public function put(Element $model);
     
     public function getElements();
     

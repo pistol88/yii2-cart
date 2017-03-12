@@ -32,10 +32,10 @@ class Cart extends Component
     public $currencyPosition = 'after';
     public $priceFormat = [2, '.', ''];
 
-    public function __construct(interfaces\CartService $cartService, interfaces\ElementService $elementService, $config = [])
+    public function __construct(interfaces\Cart $Cart, interfaces\Element $Element, $config = [])
     {
-        $this->cart = $cartService;
-        $this->element = $elementService;
+        $this->cart = $Cart;
+        $this->element = $Element;
 
         parent::__construct($config);
     }

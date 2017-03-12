@@ -41,6 +41,8 @@ pistol88.cart = {
                 itemOptions = $(self).data('options');
 
             pistol88.cart.addElement(itemModelName, itemId, itemCount, itemPrice, itemOptions, url);
+            
+            return false;
 
         });
 

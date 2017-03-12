@@ -1,10 +1,10 @@
 <?php
 namespace pistol88\cart\models;
 
-use pistol88\cart\interfaces\CartService;
+use pistol88\cart\interfaces\Cart as CartInterface;
 use yii;
 
-class Cart extends \yii\db\ActiveRecord implements CartService
+class Cart extends \yii\db\ActiveRecord implements CartInterface
 {
     private $element = null;
     
@@ -19,7 +19,7 @@ class Cart extends \yii\db\ActiveRecord implements CartService
         return $query->my();
     }
     
-    public function put(\pistol88\cart\interfaces\ElementService $elementModel)
+    public function put(\pistol88\cart\interfaces\Element $elementModel)
     {
         $elementModel->hash = self::_generateHash($elementModel->model, $elementModel->price, $elementModel->getOptions());
 

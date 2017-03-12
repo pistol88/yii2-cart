@@ -4,10 +4,10 @@ namespace pistol88\cart\models;
 use pistol88\cart\models\Cart;
 use pistol88\cart\events\CartElement as CartElementEvent;
 use pistol88\cart\events\Cart as CartEvent;
-use pistol88\cart\interfaces\ElementService;
+use pistol88\cart\interfaces\Element;
 use yii;
 
-class CartElement extends \yii\db\ActiveRecord implements ElementService
+class CartElement extends \yii\db\ActiveRecord implements Element
 {
     const EVENT_ELEMENT_UPDATE = 'element_count';
     const EVENT_ELEMENT_DELETE = 'element_delete';
@@ -22,6 +22,11 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
         return $this->count;
     }
 
+    public function getName()
+    {
+        return $this->getModel()->getCartName();
+    }
+    
     public function getItemId()
     {
         return $this->item_id;
@@ -47,6 +52,11 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
         }
 
         return $model;
+    }
+    
+    public function getModelName()
+    {
+        return $this->model;
     }
 
     public function getOptions()

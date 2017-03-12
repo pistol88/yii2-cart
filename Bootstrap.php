@@ -8,8 +8,8 @@ class Bootstrap implements BootstrapInterface
 {
     public function bootstrap($app)
     {
-        yii::$container->set('pistol88\cart\interfaces\CartService', 'pistol88\cart\models\Cart');
-        yii::$container->set('pistol88\cart\interfaces\ElementService', 'pistol88\cart\models\CartElement');
+        yii::$container->set('pistol88\cart\interfaces\Cart', 'pistol88\cart\models\Cart');
+        yii::$container->set('pistol88\cart\interfaces\Element', 'pistol88\cart\models\CartElement');
         yii::$container->set('cartElement', 'pistol88\cart\models\CartElement');
 
         if (!isset($app->i18n->translations['cart']) && !isset($app->i18n->translations['cart*'])) {

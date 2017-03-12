@@ -1,7 +1,7 @@
 <?php
 namespace pistol88\cart\interfaces;
 
-interface ElementService
+interface Element
 {
     public function getId();
 
