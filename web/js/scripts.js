@@ -41,7 +41,7 @@ pistol88.cart = {
                 itemOptions = $(self).data('options');
 
             pistol88.cart.addElement(itemModelName, itemId, itemCount, itemPrice, itemOptions, url);
-            
+
             return false;
         });
 
@@ -68,7 +68,7 @@ pistol88.cart = {
             if (lineSelector = $(self).data('line-selector')) {
                 $(self).parents(lineSelector).last().hide('slow');
             }
-            
+
             return false;
         });
         
