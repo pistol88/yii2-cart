@@ -43,7 +43,6 @@ pistol88.cart = {
             pistol88.cart.addElement(itemModelName, itemId, itemCount, itemPrice, itemOptions, url);
             
             return false;
-
         });
 
         $(document).on('click', $truncateCartButton, function () {
@@ -52,6 +51,8 @@ pistol88.cart = {
                 url = $(self).data('url');
 
             pistol88.cart.truncate(url);
+            
+            return false;
         });
 
         $(document).on('click', $deleteElementButton, function (e) {
@@ -67,8 +68,10 @@ pistol88.cart = {
             if (lineSelector = $(self).data('line-selector')) {
                 $(self).parents(lineSelector).last().hide('slow');
             }
-
+            
+            return false;
         });
+        
         $(document).on('click', '.pistol88-arr', this.changeInputValue);
         $(document).on('change', '.pistol88-cart-element-before-count', this.changeBeforeElementCount);
         $(document).on('change', '.pistol88-option-values-before', this.changeBeforeElementOptions);
