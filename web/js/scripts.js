@@ -5,77 +5,77 @@ if (typeof pistol88 == "undefined" || !pistol88) {
 pistol88.cart = {
     init: function () {
 
-        $cartElementsCount = '[data-role=cart-element-count]';
-        $buyElementButton = '[data-role=cart-buy-button]';
-        $deleteElementButton = '[data-role=cart-delete-button]';
-        $truncateCartButton = '[data-role=truncate-cart-button]';
+        cartElementsCount = '[data-role=cart-element-count]';
+        buyElementButton = '[data-role=cart-buy-button]';
+        deleteElementButton = '[data-role=cart-delete-button]';
+        truncateCartButton = '[data-role=truncate-cart-button]';
 
         pistol88.cart.csrf = jQuery('meta[name=csrf-token]').attr("content");
         pistol88.cart.csrf_param = jQuery('meta[name=csrf-param]').attr("content");
 
-        $(document).on('change', $cartElementsCount, function () {
+        jQuery(document).on('change', cartElementsCount, function () {
 
             var self = this,
-                url = $(self).data('href');
+                url = jQuery(self).data('href');
 
-            if ($(self).val() < 0) {
-                $(self).val('0');
+            if (jQuery(self).val() < 0) {
+                jQuery(self).val('0');
                 return false;
             }
 
-            cartElementId = $(self).data('id');
-            cartElementCount = $(self).val();
+            cartElementId = jQuery(self).data('id');
+            cartElementCount = jQuery(self).val();
 
             pistol88.cart.changeElementCount(cartElementId, cartElementCount, url);
 
         });
 
-        $(document).on('click', $buyElementButton, function () {
+        jQuery(document).on('click', buyElementButton, function () {
 
             var self = this,
-                url = $(self).data('url'),
-                itemModelName = $(self).data('model'),
-                itemId = $(self).data('id'),
-                itemCount = $(self).data('count'),
-                itemPrice = $(self).data('price'),
-                itemOptions = $(self).data('options');
+                url = jQuery(self).data('url'),
+                itemModelName = jQuery(self).data('model'),
+                itemId = jQuery(self).data('id'),
+                itemCount = jQuery(self).data('count'),
+                itemPrice = jQuery(self).data('price'),
+                itemOptions = jQuery(self).data('options');
 
             pistol88.cart.addElement(itemModelName, itemId, itemCount, itemPrice, itemOptions, url);
 
             return false;
         });
 
-        $(document).on('click', $truncateCartButton, function () {
+        jQuery(document).on('click', truncateCartButton, function () {
 
             var self = this,
-                url = $(self).data('url');
+                url = jQuery(self).data('url');
 
             pistol88.cart.truncate(url);
             
             return false;
         });
 
-        $(document).on('click', $deleteElementButton, function (e) {
+        jQuery(document).on('click', deleteElementButton, function (e) {
 
             e.preventDefault();
 
             var self = this,
-                url = $(self).data('url'),
-                elementId = $(self).data('id');
+                url = jQuery(self).data('url'),
+                elementId = jQuery(self).data('id');
 
             pistol88.cart.deleteElement(elementId, url);
 
-            if (lineSelector = $(self).data('line-selector')) {
-                $(self).parents(lineSelector).last().hide('slow');
+            if (lineSelector = jQuery(self).data('line-selector')) {
+                jQuery(self).parents(lineSelector).last().hide('slow');
             }
 
             return false;
         });
         
-        $(document).on('click', '.pistol88-arr', this.changeInputValue);
-        $(document).on('change', '.pistol88-cart-element-before-count', this.changeBeforeElementCount);
-        $(document).on('change', '.pistol88-option-values-before', this.changeBeforeElementOptions);
-        $(document).on('change', '.pistol88-option-values', this.changeElementOptions);
+        jQuery(document).on('click', '.pistol88-arr', this.changeInputValue);
+        jQuery(document).on('change', '.pistol88-cart-element-before-count', this.changeBeforeElementCount);
+        jQuery(document).on('change', '.pistol88-option-values-before', this.changeBeforeElementOptions);
+        jQuery(document).on('change', '.pistol88-option-values', this.changeElementOptions);
 
         return true;
     },
@@ -86,22 +86,22 @@ pistol88.cart = {
     changeElementOptions: function () {
         jQuery(document).trigger("changeCartElementOptions", this);
 
-        var id = $(this).data('id');
+        var id = jQuery(this).data('id');
 
         var options = {};
 
-        if ($(this).is('select')) {
-            var els = $('.pistol88-cart-option' + id);
+        if (jQuery(this).is('select')) {
+            var els = jQuery('.pistol88-cart-option' + id);
         }
         else {
-            var els = $('.pistol88-cart-option' + id + ':checked');
+            var els = jQuery('.pistol88-cart-option' + id + ':checked');
             console.log('radio');
         }
 
-        $(els).each(function () {
-            var name = $(this).data('id');
+        jQuery(els).each(function () {
+            var name = jQuery(this).data('id');
 
-            options[id] = $(this).val();
+            options[id] = jQuery(this).val();
         });
 
         var data = {};
@@ -114,21 +114,21 @@ pistol88.cart = {
         return false;
     },
     changeBeforeElementOptions: function () {
-        var id = $(this).data('id');
-        var filter_id = $(this).data('filter-id');
-        var buyButton = $('.pistol88-cart-buy-button' + id);
+        var id = jQuery(this).data('id');
+        var filter_id = jQuery(this).data('filter-id');
+        var buyButton = jQuery('.pistol88-cart-buy-button' + id);
 
-        var options = $(buyButton).data('options');
+        var options = jQuery(buyButton).data('options');
         if (!options) {
             options = {};
         }
 
-        options[filter_id] = $(this).val();
+        options[filter_id] = jQuery(this).val();
 
-        $(buyButton).data('options', options);
-        $(buyButton).attr('data-options', options);
+        jQuery(buyButton).data('options', options);
+        jQuery(buyButton).attr('data-options', options);
 
-        $(document).trigger("beforeChangeCartElementOptions", options);
+        jQuery(document).trigger("beforeChangeCartElementOptions", options);
 
         return true;
     },
@@ -157,14 +157,14 @@ pistol88.cart = {
         return false;
     },
     changeBeforeElementCount: function () {
-        if ($(this).val() <= 0) {
-            $(this).val('0');
+        if (jQuery(this).val() <= 0) {
+            jQuery(this).val('0');
         }
 
-        var id = $(this).data('id');
-        var buyButton = $('.pistol88-cart-buy-button' + id);
-        $(buyButton).data('count', $(this).val());
-        $(buyButton).attr('data-count', $(this).val());
+        var id = jQuery(this).data('id');
+        var buyButton = jQuery('.pistol88-cart-buy-button' + id);
+        jQuery(buyButton).data('count', jQuery(this).val());
+        jQuery(buyButton).attr('data-count', jQuery(this).val());
 
         return true;
     },
