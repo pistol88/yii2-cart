@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use pistol88\cart\widgets\ChangeCount;
 use pistol88\cart\widgets\DeleteButton;
+use pistol88\cart\widgets\ElementPrice;
+use pistol88\cart\widgets\ElementCost;
 
 ?>
 <li class="pistol88-cart-row ">
@@ -29,14 +31,13 @@ use pistol88\cart\widgets\DeleteButton;
             } ?>
         </div>
         <div class="col-xs-3">
-            <span class="cart-item-cost">
-                <?= $cost ?>
-            </span>
+            <?= ElementPrice::widget(['model' => $model]); ?>
             <?= ChangeCount::widget([
                 'model' => $model,
                 'showArrows' => $showCountArrows,
                 'actionUpdateUrl' => $controllerActions['update'],
             ]); ?>
+            <?= ElementCost::widget(['model' => $model]); ?>
         </div>
 
         <?= Html::tag('div', DeleteButton::widget([
