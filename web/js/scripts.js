@@ -25,7 +25,8 @@ pistol88.cart = {
 
             cartElementId = jQuery(self).data('id');
             cartElementCount = jQuery(self).val();
-
+            
+            pistol88.cart.changeElementCost(cartElementId, cartElementCount);
             pistol88.cart.changeElementCount(cartElementId, cartElementCount, url);
 
         });
@@ -178,6 +179,10 @@ pistol88.cart = {
         pistol88.cart.sendData(data, url);
 
         return false;
+    },
+    changeElementCost: function(cartElementId, cartElementCount) {
+        var newCost = jQuery('.pistol88-cart-element-price'+cartElementId).html() * cartElementCount;
+        jQuery('.pistol88-cart-element-cost'+cartElementId).html(newCost);
     },
     addElement: function (itemModelName, itemId, itemCount, itemPrice, itemOptions, url) {
 
